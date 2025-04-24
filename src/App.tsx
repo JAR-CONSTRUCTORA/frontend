@@ -1,10 +1,12 @@
+import { Route, Routes } from 'react-router-dom'
+import { Login } from './pages/Login'
 import './App.css'
 
 const App = () => {
   return (
-    <div className="flex h-dvh items-center justify-center">
-      <p>In progress</p>
-    </div>
+    <Routes>
+      <Route path="" element={<Login />} />
+    </Routes>
   )
 }
 

@@ -1,28 +1,38 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { Login } from './pages/Login'
 import './App.css'
 import { useAuthStore } from './store/authStore'
-import { jwtDecode } from 'jwt-decode'
+import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
+import { Dashboard } from './pages/Dashboard'
 
 const App = () => {
   const { token } = useAuthStore()
-  const [isExpired, setIsExpired] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const [isExpiredToken, setIsExpiredToken] = useState<boolean>(false)
 
-  const isTokenExpired = () => {
-    const decode = jwtDecode(token ?? '')
-    const expirationTime = decode.exp * 1000
-    if (Date.now() > expirationTime) setIsExpired(true)
-    return isExpired
+  const isTokenExpired = (token: string) => {
+    if (!token) return false
+    const decode = jwtDecode<JwtPayload>(token)
+    let expirationTime = 0
+    if (decode.exp) {
+      expirationTime = decode.exp * 1000
+    }
+    return Date.now() > expirationTime
   }
 
   useEffect(() => {
-    isTokenExpired()
+    setIsExpiredToken(isTokenExpired(token ?? ''))
+    if (isExpiredToken) {
+      localStorage.removeItem('login-storage')
+    }
+    if (token) navigate('/dashboard')
   }, [token])
 
   return (
     <Routes>
       <Route path="" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   )
 }

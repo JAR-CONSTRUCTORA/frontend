@@ -11,6 +11,7 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
+import { useNavigate } from 'react-router-dom'
 
 interface LoginData {
   username: string
@@ -18,6 +19,7 @@ interface LoginData {
 }
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const { register, handleSubmit } = useForm<LoginData>()
   const { getUser, getToken } = useAuthStore()
 
@@ -37,6 +39,7 @@ const LoginForm = () => {
       alert('Login exitoso')
       getUser(loginResp.data.userLogged)
       getToken(loginResp.data.token)
+      navigate('/dashboard')
     }
   }
 

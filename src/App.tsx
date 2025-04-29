@@ -1,14 +1,14 @@
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login'
 import './App.css'
 import { useAuthStore } from './store/authStore'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { Dashboard } from './pages/Dashboard'
+import { DashboardAdmin } from './pages/DashboardAdmin'
 
 const App = () => {
   const { token } = useAuthStore()
-  const navigate = useNavigate()
   const [isExpiredToken, setIsExpiredToken] = useState<boolean>(false)
 
   const isTokenExpired = (token: string) => {
@@ -26,13 +26,13 @@ const App = () => {
     if (isExpiredToken) {
       localStorage.removeItem('login-storage')
     }
-    if (token) navigate('/dashboard')
-  }, [token])
+  }, [])
 
   return (
     <Routes>
       <Route path="" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/admin" element={<DashboardAdmin />} />
     </Routes>
   )
 }

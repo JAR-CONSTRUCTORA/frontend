@@ -1,7 +1,6 @@
 import { useAuthStore } from '@/store/authStore'
 import { Button } from '../ui/button'
 import { Check, House, Logs } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
   const { user } = useAuthStore()

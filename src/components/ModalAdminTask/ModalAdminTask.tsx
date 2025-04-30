@@ -10,8 +10,11 @@ import {
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
+import { ComboBoxWorkers } from '../ComboBoxWorkers'
+import { useForm } from 'react-hook-form'
 
 const ModalAdminTask = () => {
+  const { register } = useForm()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
   const addWorker = () => {
     setAssignessArray([...assignessArray, null])
@@ -46,15 +49,13 @@ const ModalAdminTask = () => {
               <div className="flex w-full flex-col gap-1">
                 <div className="flex">
                   <Label>Asigna trabajadores:</Label>
-                  <Button type="button" className="w-fit" onClick={addWorker}>
-                    +
-                  </Button>
                 </div>
                 {assignessArray.map((_, index) => (
-                  <div className="flex flex-col justify-center">
-                    <p>Dropdown Menu W/Workers</p>
-                  </div>
+                  <ComboBoxWorkers />
                 ))}
+                <Button type="button" className="w-fit" onClick={addWorker}>
+                  +
+                </Button>
               </div>
             </form>
           </DialogDescription>

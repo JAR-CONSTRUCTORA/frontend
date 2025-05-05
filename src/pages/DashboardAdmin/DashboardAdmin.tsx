@@ -7,8 +7,7 @@ import { useEffect } from 'react'
 
 const DashboardAdmin = () => {
   const { user } = useAuthStore()
-  const { setWorkers, workers } = useDataStore()
-  console.log(workers)
+  const { setWorkers } = useDataStore()
   const getWorkers = async () => {
     const workersResp = await axios.get('http://localhost:8000/user/workers')
     setWorkers(workersResp.data?.workers)

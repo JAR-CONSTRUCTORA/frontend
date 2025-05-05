@@ -13,10 +13,22 @@ import { useDataStore } from '@/store/dataStore'
 import { User } from '@/types'
 
 const ComboBoxWorkers = () => {
-  const { workers } = useDataStore()
+  const { workers, setSelectedWorkers, selectedWorkers } = useDataStore()
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<User>()
-  console.log(value)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+
+  const toggleWorkers = (index: number, worker: User) => {
+    const existWorker = selectedWorkers.some((w) => w._id === worker._id)
+    if (existWorker) {
+      alert('Ya asignaste este trabajador')
+    } else {
+      const updated = [...selectedWorkers]
+      console.log(updated)
+      updated[index] = worker
+      setSelectedWorkers(updated)
+      setCurrentIndex(index)
+    }
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -27,8 +39,8 @@ const ComboBoxWorkers = () => {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? `${value.firstName} ${value.lastName}`
+          {selectedWorkers.length > 0
+            ? `${selectedWorkers[currentIndex]?.firstName} ${selectedWorkers[currentIndex]?.lastName}`
             : 'Selecciona un trabajador...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -38,8 +50,11 @@ const ComboBoxWorkers = () => {
           <CommandInput placeholder="Buscar un trabajador..." className="h-9" />
           <CommandList>
             <CommandGroup>
-              {workers?.map((worker) => (
-                <CommandItem key={worker._id} onSelect={() => setValue(worker)}>
+              {workers?.map((worker, index) => (
+                <CommandItem
+                  key={worker._id}
+                  onSelect={() => toggleWorkers(index, worker)}
+                >
                   {worker.firstName} {worker.lastName}
                 </CommandItem>
               ))}

@@ -13,6 +13,7 @@ import { Button } from '../ui/button'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import { useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
+import axios from 'axios'
 
 const ModalAdminTask = () => {
   const { register, handleSubmit } = useForm()
@@ -29,8 +30,20 @@ const ModalAdminTask = () => {
     }
   }
 
-  const onSubmit = (e: any) => {
-    console.log([{ ...e, assignees: selectedWorkers }])
+  const onSubmit = async (e: any) => {
+    const taskPostResp = await axios.post(
+      'http://localhost:8000/task/createTask',
+      { ...e, assignees: selectedWorkers },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    console.log(taskPostResp)
+    if (taskPostResp.data.message) {
+      alert(`${taskPostResp.data.message}`)
+    }
   }
 
   return (

@@ -6,8 +6,18 @@ import { defineConfig } from "eslint/config";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
-  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"], languageOptions: { globals: globals.browser } },
+  { 
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"], 
+    plugins: { js }, 
+    extends: ["js/recommended"], 
+    rules: {
+      'react/react-in-jsx-scope': 'off', // Disable React in scope rule for JSX
+    }
+  },
+  { 
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"], 
+    languageOptions: { globals: globals.browser } 
+  },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
-]);
+]); 

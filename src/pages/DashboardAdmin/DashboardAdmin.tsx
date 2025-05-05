@@ -21,24 +21,38 @@ const DashboardAdmin = () => {
   }, [])
 
   return (
-    <div className="mx-2 grid h-dvh grid-cols-12 gap-10 text-gray-200">
-      <div className="col-span-2 my-2 rounded-xl border-2 border-white/20 bg-[#212121]">
+    <div className="grid grid-cols-1 bg-[#1a1a1a] px-4 py-2 text-gray-200 lg:grid-cols-12">
+      <aside className="mb-4 h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-[#212121] p-4 shadow-lg lg:col-span-2 lg:mr-4 lg:mb-0">
         <Sidebar />
-      </div>
-      <div className="col-span-10 my-2 rounded-xl border-2 border-white/20 bg-[#212121]">
-        <div className="mt-10 ml-2">
-          <h2 className="text-xl font-medium">Create Task</h2>
-        </div>
-        <div className="mx-10 grid grid-cols-4 gap-2 gap-y-5">
-          <div className="cursor-pointer rounded border-1 border-white/20">
+      </aside>
+
+      <main className="rounded-2xl border border-white/10 bg-[#212121] p-6 shadow-lg lg:col-span-10">
+        <header className="mb-6">
+          <h2 className="mb-2 text-3xl font-bold tracking-tight text-white">
+            Admin Dashboard
+          </h2>
+          <p className="text-sm text-gray-400">
+            Manage your tasks efficiently and with style.
+          </p>
+        </header>
+
+        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
             <ModalAdminTask />
           </div>
-          <div className="rounded border-1 border-white/20">Task</div>
-          <div>Task</div>
-          <div>Task</div>
-          <div>Task</div>
-        </div>
-      </div>
+          {[...Array(21)].map((_, i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl"
+            >
+              <h3 className="mb-2 text-lg font-semibold">Task {i + 1}</h3>
+              <p className="text-sm text-gray-400">
+                Lorem ipsum dolor sit amet, consectetur.
+              </p>
+            </div>
+          ))}
+        </section>
+      </main>
     </div>
   )
 }

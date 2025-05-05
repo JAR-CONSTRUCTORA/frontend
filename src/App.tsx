@@ -29,11 +29,13 @@ const App = () => {
   }, [])
 
   return (
-    <Routes>
-      <Route path="" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/admin" element={<DashboardAdmin />} />
-    </Routes>
+    <div className="p-4">
+      <Routes>
+        <Route path="" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<DashboardAdmin />} />
+      </Routes>
+    </div>
   )
 }
 

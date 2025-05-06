@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { Login } from './pages/Login'
 import './App.css'
 import { useAuthStore } from './store/authStore'
@@ -8,7 +8,8 @@ import { Dashboard } from './pages/Dashboard'
 import { DashboardAdmin } from './pages/DashboardAdmin'
 
 const App = () => {
-  const { token } = useAuthStore()
+  const { token, user } = useAuthStore()
+  const navigate = useNavigate()
   const [isExpiredToken, setIsExpiredToken] = useState<boolean>(false)
 
   const isTokenExpired = (token: string) => {
@@ -26,6 +27,7 @@ const App = () => {
     if (isExpiredToken) {
       localStorage.removeItem('login-storage')
     }
+    if (!user) navigate('')
   }, [])
 
   return (

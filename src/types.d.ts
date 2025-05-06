@@ -4,5 +4,17 @@ export interface User {
   password: string
   firstName: string
   lastName: string
-  rol: string
+  role: string
+}
+
+export interface Task {
+  _id: string
+  description: string
+  location: string
+  estimatedTime: number
+  startDateTime: Date
+  enDateTime: Date
+  status: string
+  assignees: User[]
+  completedOnTime: boolean
 }

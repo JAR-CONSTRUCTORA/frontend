@@ -1,3 +1,4 @@
+import { CardTask } from '@/components/CardTask'
 import { ModalAdminTask } from '@/components/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
 import { useAuthStore } from '@/store/authStore'
@@ -41,15 +42,7 @@ const DashboardAdmin = () => {
             <ModalAdminTask />
           </div>
           {[...Array(21)].map((_, i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl"
-            >
-              <h3 className="mb-2 text-lg font-semibold">Task {i + 1}</h3>
-              <p className="text-sm text-gray-400">
-                Lorem ipsum dolor sit amet, consectetur.
-              </p>
-            </div>
+            <CardTask key={i} index={i} />
           ))}
         </section>
       </main>

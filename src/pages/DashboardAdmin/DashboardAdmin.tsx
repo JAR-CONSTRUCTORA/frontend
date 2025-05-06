@@ -17,7 +17,7 @@ const DashboardAdmin = () => {
   }
   useEffect(() => {
     getWorkers()
-    if (user?.rol != 'Admin') navigate('/dashboard')
+    if (user?.role != 'Admin') navigate('/dashboard')
   }, [])
 
   return (

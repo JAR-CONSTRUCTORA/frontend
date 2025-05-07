@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate()
   useEffect(() => {
     if (token) navigate('/dashboard')
-    if (user?.rol === 'admin') navigate('/admin')
+    if (user?.role === 'admin') navigate('/admin')
   }, [])
   return (
     <div className="flex h-dvh items-center justify-center">

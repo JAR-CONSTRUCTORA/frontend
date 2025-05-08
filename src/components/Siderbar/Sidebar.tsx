@@ -1,14 +1,33 @@
 import { useAuthStore } from '@/store/authStore'
 import { Button } from '../ui/button'
-import { Check, House, Logs } from 'lucide-react'
+import {
+  ArrowBigLeft,
+  Check,
+  House,
+  Logs,
+  ShieldUser,
+  User,
+} from 'lucide-react'
 
 const Sidebar = () => {
   const { user } = useAuthStore()
+
+  const handleSignOut = () => {
+    useAuthStore.persist.clearStorage()
+    useAuthStore.setState({ user: null, token: null })
+  }
+
   return (
     <div className="flex h-full w-full flex-col justify-between">
       <div className="mt-10 flex w-full items-center justify-center gap-2">
-        <div>
-          <span className="rounded-full border-1 px-10 py-8"></span>
+        <div className="flex">
+          <span className="rounded-full border-2 border-white/65 px-4 py-4">
+            {user?.role === 'Admin' ? (
+              <ShieldUser className="text-amber-500" />
+            ) : (
+              <User />
+            )}
+          </span>
         </div>
         <div className="text-lg font-medium tracking-wide">
           <h4>{user?.firstName}</h4>
@@ -30,14 +49,12 @@ const Sidebar = () => {
         </li>
       </ul>
 
-      <div className="mb-4 flex items-center justify-center">
-        <Button
-          type="button"
-          className="bg-gray-300 text-gray-700 hover:bg-gray-200"
-        >
-          {'<-'}
-          Sign Out
-        </Button>
+      <div
+        className="mb-4 flex cursor-pointer items-center justify-center rounded-md border-2 border-white/25 bg-inherit py-6 font-bold text-gray-300 hover:bg-white/30"
+        onClick={() => handleSignOut()}
+      >
+        <ArrowBigLeft />
+        <span>Sign Out</span>
       </div>
     </div>
   )

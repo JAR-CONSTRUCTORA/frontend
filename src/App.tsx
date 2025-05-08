@@ -9,6 +9,7 @@ import { DashboardAdmin } from './pages/DashboardAdmin'
 
 const App = () => {
   const { token, user } = useAuthStore()
+  console.log(user)
   const navigate = useNavigate()
   const [isExpiredToken, setIsExpiredToken] = useState<boolean>(false)
 
@@ -28,7 +29,7 @@ const App = () => {
       localStorage.removeItem('login-storage')
     }
     if (!user) navigate('')
-  }, [])
+  }, [user])
 
   return (
     <div className="p-4">

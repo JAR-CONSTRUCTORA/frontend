@@ -3,21 +3,30 @@ import { ModalAdminTask } from '@/components/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
 import { useAuthStore } from '@/store/authStore'
 import { useDataStore } from '@/store/dataStore'
+import { Task } from '@/types'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const DashboardAdmin = () => {
   const { user } = useAuthStore()
   const navigate = useNavigate()
   const { setWorkers } = useDataStore()
+  const [allTasksData, setAllTasksData] = useState<Task[]>([])
 
   const getWorkers = async () => {
     const workersResp = await axios.get('http://localhost:8000/user/workers')
     setWorkers(workersResp.data?.workers)
   }
+
+  const getTasks = async () => {
+    const tasksResp = await await axios.get('http://localhost:8000/task')
+    setAllTasksData(tasksResp.data.allTasks)
+  }
+
   useEffect(() => {
     getWorkers()
+    getTasks()
     if (user?.role != 'Admin') navigate('/dashboard')
   }, [])
 
@@ -41,8 +50,8 @@ const DashboardAdmin = () => {
           <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
             <ModalAdminTask />
           </div>
-          {[...Array(21)].map((_, i) => (
-            <CardTask key={i} index={i} />
+          {allTasksData.map((task, i) => (
+            <CardTask key={i} index={i} {...task} />
           ))}
         </section>
       </main>

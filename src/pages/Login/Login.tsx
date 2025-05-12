@@ -7,7 +7,7 @@ const Login = () => {
   const { token, user } = useAuthStore()
   const navigate = useNavigate()
   useEffect(() => {
-    if (token) navigate('/dashboard')
+    if (token) navigate('/user/dashboard')
     if (user?.role === 'admin') navigate('/admin')
   }, [])
   return (

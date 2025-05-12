@@ -1,5 +1,4 @@
 import { useAuthStore } from '@/store/authStore'
-import { Button } from '../ui/button'
 import {
   ArrowBigLeft,
   Check,

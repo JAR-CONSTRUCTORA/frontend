@@ -4,8 +4,10 @@ import './App.css'
 import { useAuthStore } from './store/authStore'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
-import { Dashboard } from './pages/Dashboard'
 import { DashboardAdmin } from './pages/DashboardAdmin'
+import { HomeUser } from './pages/HomeUser'
+import { TasksImportant } from './pages/TasksImportant'
+import { TasksCompleted } from './pages/TasksCompleted'
 
 const App = () => {
   const { token, user } = useAuthStore()
@@ -38,7 +40,9 @@ const App = () => {
       <Routes>
         <Route path="" element={<Login />} />
         <Route path="/user">
-          <Route path="all-tasks" element={<Dashboard />} />
+          <Route path="all-tasks" element={<HomeUser />} />
+          <Route path="important-tasks" element={<TasksImportant />} />
+          <Route path="completed-tasks" element={<TasksCompleted />} />
         </Route>
         <Route path="/admin" element={<DashboardAdmin />}>
           <Route path="all-tasks" element={<DashboardAdmin />} />

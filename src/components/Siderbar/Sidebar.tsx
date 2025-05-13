@@ -7,6 +7,7 @@ import {
   ShieldUser,
   User,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
   const { user } = useAuthStore()
@@ -34,18 +35,27 @@ const Sidebar = () => {
         </div>
       </div>
       <ul className="flex w-full cursor-pointer flex-col items-center">
-        <li className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30">
+        <Link
+          to={'/user/all-tasks'}
+          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+        >
           <House className="h-5 w-5" />
           <span className="text-sm">All Tasks</span>
-        </li>
-        <li className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30">
+        </Link>
+        <Link
+          to={'/user/important-tasks'}
+          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+        >
           <Logs className="h-5 w-5" />
           <span className="text-sm">Important!</span>
-        </li>
-        <li className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30">
+        </Link>
+        <Link
+          to={'/user/completed-tasks'}
+          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+        >
           <Check className="h-5 w-5" />
           <span className="text-sm">Completed!</span>
-        </li>
+        </Link>
       </ul>
 
       <div

@@ -1,9 +1,9 @@
+import { Container } from '@/components/Container'
 import { Dashboard } from '@/components/Dashboard'
 import { Sidebar } from '@/components/Siderbar'
 import { useAuthStore } from '@/store/authStore'
 import { Task } from '@/types'
 import axios from 'axios'
-import { Container } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const HomeUser = () => {
@@ -27,7 +27,7 @@ const HomeUser = () => {
       <aside className="mb-4 h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-[#212121] p-4 shadow-lg lg:col-span-2 lg:mr-4 lg:mb-0">
         <Sidebar />
       </aside>
-      <Dashboard data={tasksData} section="All Tasks" />
+      <Dashboard data={tasksData} section="Tareas" />
     </Container>
   )
 }

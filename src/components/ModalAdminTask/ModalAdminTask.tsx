@@ -16,9 +16,14 @@ import { useDataStore } from '@/store/dataStore'
 import axios from 'axios'
 
 const ModalAdminTask = () => {
-  const { register, handleSubmit } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm()
   const { selectedWorkers } = useDataStore()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
+  console.log(selectedWorkers)
   const addWorker = () => {
     setAssignessArray([...assignessArray, null])
   }
@@ -48,12 +53,12 @@ const ModalAdminTask = () => {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <span>+ Create task (Sale modal)</span>
+      <DialogTrigger className="m-0 flex h-full w-full items-center justify-center p-0 text-xl font-medium">
+        <span className="tracking-wider">+ Crear Tarea</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Task</DialogTitle>
+          <DialogTitle>Creador de Tareas</DialogTitle>
           <DialogDescription>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -64,7 +69,7 @@ const ModalAdminTask = () => {
                 <Input
                   type="text"
                   placeholder="Arreglar aire acondicionado..."
-                  {...register('description')}
+                  {...register('description', { required: true })}
                 />
               </div>
               <div className="flex w-full gap-2">
@@ -73,7 +78,7 @@ const ModalAdminTask = () => {
                   <Input
                     type="text"
                     placeholder="Rivadavia 1200..."
-                    {...register('location')}
+                    {...register('location', { required: true })}
                   />
                 </div>
                 <div className="flex w-full flex-col gap-1">
@@ -81,7 +86,7 @@ const ModalAdminTask = () => {
                   <Input
                     type="number"
                     placeholder="2 horas"
-                    {...register('estimatedTime')}
+                    {...register('estimatedTime', { required: true })}
                   />
                 </div>
               </div>
@@ -113,6 +118,7 @@ const ModalAdminTask = () => {
               </div>
               <div className="flex justify-end">
                 <Button
+                  disabled={!isValid || selectedWorkers.length < 1}
                   type="submit"
                   className="bg-green-500 hover:bg-green-400"
                 >

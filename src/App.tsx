@@ -31,8 +31,8 @@ const App = () => {
       localStorage.removeItem('login-storage')
     }
     if (!user) navigate('')
-    if (user?.role === 'Admin') navigate('/admin/all-tasks')
-    if (user?.role === 'Employee') navigate('/user/all-tasks')
+    if (user?.role === 'Admin') navigate('/admin/home')
+    if (user?.role === 'Employee') navigate('/user/home')
   }, [user])
 
   return (
@@ -40,12 +40,12 @@ const App = () => {
       <Routes>
         <Route path="" element={<Login />} />
         <Route path="/user">
-          <Route path="all-tasks" element={<HomeUser />} />
+          <Route path="home" element={<HomeUser />} />
           <Route path="important-tasks" element={<TasksImportant />} />
           <Route path="completed-tasks" element={<TasksCompleted />} />
         </Route>
-        <Route path="/admin" element={<DashboardAdmin />}>
-          <Route path="all-tasks" element={<DashboardAdmin />} />
+        <Route path="/admin">
+          <Route path="home" element={<DashboardAdmin />} />
         </Route>
       </Routes>
     </div>

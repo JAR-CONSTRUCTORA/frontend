@@ -46,7 +46,7 @@ const CardTask: React.FC<Props> = ({
 
   return (
     <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
-      <h3 className="mb-5 text-lg font-semibold">Task {index + 1}</h3>
+      <h3 className="mb-5 text-lg font-semibold">Tarea {index + 1}</h3>
       <div className="flex flex-col gap-1 font-medium text-gray-100">
         <p className="truncate">Tarea: {description}</p>
         <p>Lugar: {location}</p>

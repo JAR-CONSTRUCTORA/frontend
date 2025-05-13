@@ -12,9 +12,6 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
       <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#2a2a2a] p-6 shadow-lg">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-bold">Detalles de la Tarea</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
-            &times;
-          </button>
         </div>
 
         <div className="space-y-4">
@@ -58,7 +55,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
         </div>
 
         <div className="mt-6 flex justify-end">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" className="bg-red-400" onClick={onClose}>
             Cerrar
           </Button>
         </div>

@@ -1,65 +1,70 @@
 import { Task } from '@/types'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Info, TimerIcon, MapPin, CheckCircle2 } from 'lucide-react'
+import { Button } from '../ui/button'
 
 type Props = {
   task: Task
+  onClose: () => void
 }
 
-const ModalAdminDetailTask: React.FC<Props> = ({ task }) => {
+const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="w-full bg-gray-700 hover:bg-gray-600">
-          <Info className="mr-2 h-4 w-4" />
-          Ver detalle
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="rounded-2xl border border-white/10 bg-[#1a1a1a] text-white">
-        <DialogHeader>
-          <DialogTitle className="text-2xl text-white">
-            Detalles de la Tarea
-          </DialogTitle>
-        </DialogHeader>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#2a2a2a] p-6 shadow-lg">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="text-xl font-bold">Detalles de la Tarea</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-white">
+            &times;
+          </button>
+        </div>
+
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <TimerIcon className="text-gray-400" />
-            <span className="font-medium">Descripción:</span> {task.description}
+          <div>
+            <p className="text-sm text-gray-400">Descripción</p>
+            <p className="text-white">{task.description}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="text-gray-400" />
-            <span className="font-medium">Ubicación:</span> {task.location}
+
+          <div>
+            <p className="text-sm text-gray-400">Ubicación</p>
+            <p className="text-white">{task.location}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="font-medium">Estado:</span>
-            <span
-              className={`${task.status === 'In progress' ? 'text-red-500' : ''} ${task.status === 'Completed' ? 'text-green-500' : 'text-gray-400'}`}
+
+          <div>
+            <p className="text-sm text-gray-400">Estado</p>
+            <p
+              className={`font-medium ${
+                task.status === 'In progress'
+                  ? 'text-red-500'
+                  : task.status === 'Completed'
+                    ? 'text-green-500'
+                    : 'text-gray-400'
+              }`}
             >
               {task.status}
-            </span>
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="text-gray-400" />
-            {task.completedOnTime ? (
-              <span className="font-medium text-green-500">
-                Completado en tiempo
-              </span>
-            ) : (
-              <span className="font-medium text-red-500">
-                No completado a tiempo
-              </span>
-            )}
-          </div>
+
+          {task.status === 'Completed' && (
+            <div>
+              <p className="text-sm text-gray-400">Completado a tiempo</p>
+              <p
+                className={
+                  task.completedOnTime ? 'text-green-500' : 'text-red-500'
+                }
+              >
+                {task.completedOnTime ? 'Sí' : 'No'}
+              </p>
+            </div>
+          )}
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <div className="mt-6 flex justify-end">
+          <Button variant="outline" onClick={onClose}>
+            Cerrar
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
+
 export default ModalAdminDetailTask

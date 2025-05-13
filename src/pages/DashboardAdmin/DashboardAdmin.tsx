@@ -31,6 +31,8 @@ const DashboardAdmin = () => {
     if (user?.role != 'Admin') navigate('/dashboard')
   }, [])
 
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+
   return (
     <div className="grid grid-cols-1 bg-[#1a1a1a] px-4 py-2 text-gray-200 lg:grid-cols-12">
       <aside className="mb-4 h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-[#212121] p-4 shadow-lg lg:col-span-2 lg:mr-4 lg:mb-0">
@@ -46,17 +48,26 @@ const DashboardAdmin = () => {
             Aquí podrás gestionar y crear tareas.
           </p>
         </header>
-
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
             <ModalAdminTask />
           </div>
           {allTasksData.map((task, i) => (
-            <CardTask key={i} index={i} {...task} />
+            <CardTask
+              key={i}
+              index={i}
+              {...task}
+              onClick={() => setSelectedTask(task)}
+            />
           ))}
-        </section>
+        </section>{' '}
+        {selectedTask && (
+          <ModalAdminDetailTask
+            task={selectedTask}
+            onClose={() => setSelectedTask(null)}
+          />
+        )}
       </main>
-      {/* <ModalAdminDetailTask /> */}
     </div>
   )
 }

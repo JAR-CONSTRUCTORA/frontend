@@ -8,9 +8,7 @@ import { useEffect, useState } from 'react'
 
 const TasksImportant = () => {
   const { user } = useAuthStore()
-  console.log(user)
   const [tasksData, setTasksData] = useState<Task[]>([])
-  console.log(tasksData)
   const getTasksImportant = async () => {
     const taskResp = await axios.get(
       `http://localhost:8000/task/getTasks/${user?._id}?status=Pending`,

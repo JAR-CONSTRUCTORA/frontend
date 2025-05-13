@@ -2,9 +2,9 @@ import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-
 type Props = Partial<Task> & {
   index: number
+  onClick: () => void
 }
 
 const CardTask: React.FC<Props> = ({
@@ -14,9 +14,9 @@ const CardTask: React.FC<Props> = ({
   location,
   status,
   completedOnTime,
+  onClick,
 }) => {
   const l = useLocation()
-  console.log(completedOnTime)
 
   const startTask = async () => {
     await axios.put(

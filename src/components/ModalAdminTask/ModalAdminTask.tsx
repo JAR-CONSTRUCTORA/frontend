@@ -23,7 +23,6 @@ const ModalAdminTask = () => {
   } = useForm()
   const { selectedWorkers } = useDataStore()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
-  console.log(selectedWorkers)
   const addWorker = () => {
     setAssignessArray([...assignessArray, null])
   }
@@ -45,7 +44,6 @@ const ModalAdminTask = () => {
         },
       },
     )
-    console.log(taskPostResp)
     if (taskPostResp.data.message) {
       alert(`${taskPostResp.data.message}`)
     }

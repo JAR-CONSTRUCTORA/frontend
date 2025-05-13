@@ -11,7 +11,6 @@ import { TasksCompleted } from './pages/TasksCompleted'
 
 const App = () => {
   const { token, user } = useAuthStore()
-  console.log(user)
   const navigate = useNavigate()
   const [isExpiredToken, setIsExpiredToken] = useState<boolean>(false)
 

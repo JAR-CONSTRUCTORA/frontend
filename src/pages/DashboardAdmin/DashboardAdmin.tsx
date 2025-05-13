@@ -47,7 +47,7 @@ const DashboardAdmin = () => {
         </header>
 
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
+          <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
             <ModalAdminTask />
           </div>
           {allTasksData.map((task, i) => (

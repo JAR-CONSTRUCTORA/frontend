@@ -43,9 +43,20 @@ const CardTask: React.FC<Props> = ({
     )
     if (endedTaskResp.status === 200) alert('Se termino el trabajo')
   }
+  const handleOpenModal = () => {
+    const searchParams = new URLSearchParams(window.location.search)
+    if (_id) {
+      searchParams.set('task', _id)
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}`
+      window.history.pushState(null, '', newUrl)
+    }
+  }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
+    <button
+      onClick={() => handleOpenModal()}
+      className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl"
+    >
       <h3 className="mb-5 text-lg font-semibold">Tarea {index + 1}</h3>
       <div className="flex flex-col gap-1 font-medium text-gray-100">
         <p className="truncate">Tarea: {description}</p>
@@ -77,7 +88,10 @@ const CardTask: React.FC<Props> = ({
           )}
         </div>
       </div>
-    </div>
+      <span className="absolute top-full left-1/2 mt-2 hidden -translate-x-1/2 rounded bg-[#2a2a2a] px-2 py-1 text-sm text-white group-hover:block">
+        Ver detalle
+      </span>
+    </button>
   )
 }
 

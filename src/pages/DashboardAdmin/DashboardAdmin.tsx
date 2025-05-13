@@ -1,4 +1,5 @@
 import { CardTask } from '@/components/CardTask'
+import ModalAdminDetailTask from '@/components/ModalAdminDetailTask/ModalAdminDetailTask'
 import { ModalAdminTask } from '@/components/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
 import { useAuthStore } from '@/store/authStore'
@@ -55,6 +56,7 @@ const DashboardAdmin = () => {
           ))}
         </section>
       </main>
+      {/* <ModalAdminDetailTask /> */}
     </div>
   )
 }

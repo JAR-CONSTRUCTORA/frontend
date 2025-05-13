@@ -42,7 +42,7 @@ const DashboardAdmin = () => {
             Panel
           </h2>
           <p className="text-sm text-gray-400">
-            Gestiona tus tareas de manera eficiente.
+            Aquí podrás gestionar y crear tareas.
           </p>
         </header>
 

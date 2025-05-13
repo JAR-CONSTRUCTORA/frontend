@@ -39,10 +39,10 @@ const DashboardAdmin = () => {
       <main className="rounded-2xl border border-white/10 bg-[#212121] p-6 shadow-lg lg:col-span-10">
         <header className="mb-6">
           <h2 className="mb-2 text-3xl font-bold tracking-tight text-white">
-            Admin Dashboard
+            Panel
           </h2>
           <p className="text-sm text-gray-400">
-            Manage your tasks efficiently and with style.
+            Gestiona tus tareas de manera eficiente.
           </p>
         </header>
 

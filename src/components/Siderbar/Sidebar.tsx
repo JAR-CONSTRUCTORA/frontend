@@ -7,10 +7,12 @@ import {
   ShieldUser,
   User,
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Sidebar = () => {
   const { user } = useAuthStore()
+  const { pathname } = useLocation()
+  const basePath = user?.role === 'Admin' ? 'admin' : 'user'
 
   const handleSignOut = () => {
     useAuthStore.persist.clearStorage()
@@ -19,7 +21,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex h-full w-full flex-col justify-between">
-      <div className="mt-10 flex w-full items-center justify-center gap-2">
+      <div className="r mt-10 flex w-full items-center gap-4">
         <div className="flex">
           <span className="rounded-full border-2 border-white/65 px-4 py-4">
             {user?.role === 'Admin' ? (
@@ -29,34 +31,39 @@ const Sidebar = () => {
             )}
           </span>
         </div>
-        <div className="text-lg font-medium tracking-wide">
-          <h4>{user?.firstName}</h4>
-          <h4>{user?.lastName}</h4>
+        <div className="flex flex-col gap-1 text-lg tracking-wide">
+          <div className="flex gap-1 font-medium">
+            <h4>{user?.firstName}</h4>
+            <h4>{user?.lastName}</h4>
+          </div>
+          <div className="text-sm">
+            <p>Rol: {user?.role}</p>
+          </div>
         </div>
       </div>
-      <ul className="flex w-full cursor-pointer flex-col items-center">
+      <div className="flex w-full cursor-pointer flex-col items-center">
         <Link
-          to={'/user/all-tasks'}
-          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+          to={`/${basePath}/home`}
+          className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/home` && 'bg-white/30'}`}
         >
           <House className="h-5 w-5" />
-          <span className="text-sm">All Tasks</span>
+          <span className="text-sm">Home</span>
         </Link>
         <Link
-          to={'/user/important-tasks'}
-          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+          to={`/${basePath}/important-tasks`}
+          className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/important-tasks` && 'bg-white/30'}`}
         >
           <Logs className="h-5 w-5" />
-          <span className="text-sm">Important!</span>
+          <span className="text-sm">Importantes</span>
         </Link>
         <Link
-          to={'/user/completed-tasks'}
-          className="flex w-full items-center justify-center gap-2 py-2 hover:bg-white/30"
+          to={`/${basePath}/completed-tasks`}
+          className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
         >
           <Check className="h-5 w-5" />
-          <span className="text-sm">Completed!</span>
+          <span className="text-sm">Completadas!</span>
         </Link>
-      </ul>
+      </div>
 
       <div
         className="mb-4 flex cursor-pointer items-center justify-center rounded-md border-2 border-white/25 bg-inherit py-6 font-bold text-gray-300 hover:bg-white/30"

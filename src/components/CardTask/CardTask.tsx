@@ -2,7 +2,6 @@ import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-import { on } from 'events'
 type Props = Partial<Task> & {
   index: number
   onClick: () => void
@@ -52,7 +51,7 @@ const CardTask: React.FC<Props> = ({
     >
       <h3 className="mb-5 text-lg font-semibold">Tarea {index + 1}</h3>
       <div className="flex flex-col gap-1 font-medium text-gray-100">
-        <p className="truncate">Tarea: {description}</p>
+        <p className="line-clamp-2 break-words">Descripcion: {description}</p>
         <p>Lugar: {location}</p>
         <p>
           Status:{' '}

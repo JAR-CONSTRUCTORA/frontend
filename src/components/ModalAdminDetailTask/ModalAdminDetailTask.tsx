@@ -15,17 +15,17 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
         </div>
 
         <div className="space-y-4">
-          <div>
+          <div className="overflow-hidden text-ellipsis">
             <p className="text-sm text-gray-400">Descripción</p>
-            <p className="text-white">{task.description}</p>
+            <p className="break-words text-white">{task.description}</p>
           </div>
 
-          <div>
+          <div className="overflow-hidden text-ellipsis">
             <p className="text-sm text-gray-400">Ubicación</p>
-            <p className="text-white">{task.location}</p>
+            <p className="break-words text-white">{task.location}</p>
           </div>
 
-          <div>
+          <div className="overflow-hidden text-ellipsis">
             <p className="text-sm text-gray-400">Estado</p>
             <p
               className={`font-medium ${
@@ -41,7 +41,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
           </div>
 
           {task.status === 'Completed' && (
-            <div>
+            <div className="overflow-hidden text-ellipsis">
               <p className="text-sm text-gray-400">Completado a tiempo</p>
               <p
                 className={

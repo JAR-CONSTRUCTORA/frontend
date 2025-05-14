@@ -8,13 +8,14 @@ type Props = Partial<Task> & {
 }
 
 const CardTask: React.FC<Props> = ({
-  index,
   _id,
   description,
   location,
   status,
   completedOnTime,
+  startDateTime,
 }) => {
+  console.log(startDateTime?.getDate)
   const l = useLocation()
   console.log(completedOnTime)
 
@@ -31,6 +32,7 @@ const CardTask: React.FC<Props> = ({
     alert('Se empezo el trabajo')
   }
 
+  //El empleado que agregue una nota sobre lo que realizo.
   const endTask = async () => {
     const endedTaskResp = await axios.put(
       `http://localhost:8000/task/endTask/${_id}`,
@@ -46,12 +48,12 @@ const CardTask: React.FC<Props> = ({
 
   return (
     <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
-      <h3 className="mb-5 text-lg font-semibold">Tarea {index + 1}</h3>
+      <h3 className="mb-5 text-lg font-semibold">Nombre estacion</h3>
       <div className="flex flex-col gap-1 font-medium text-gray-100">
         <p className="truncate">Tarea: {description}</p>
         <p>Lugar: {location}</p>
         <p>
-          Status:{' '}
+          Estado:{' '}
           <span
             className={`text-gray-400 ${status === 'In progress' && 'text-red-500'} ${status === 'Completed' && 'text-green-500'}`}
           >
@@ -62,12 +64,12 @@ const CardTask: React.FC<Props> = ({
           {completedOnTime ? 'Completado en tiempo' : 'No completo a tiempo'}
         </p>
         <div className="mt-4 w-full">
-          {l.pathname === '/dashboard' && status === 'Pending' && (
+          {l.pathname === '/user/home' && status === 'Pending' && (
             <Button className="w-full" onClick={startTask}>
               Empezar tarea
             </Button>
           )}
-          {l.pathname === '/dashboard' && status === 'In progress' && (
+          {l.pathname === '/user/home' && status === 'In progress' && (
             <Button
               className="w-full bg-green-500 hover:bg-green-400"
               onClick={endTask}

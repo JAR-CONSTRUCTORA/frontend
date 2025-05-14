@@ -65,6 +65,14 @@ const ModalAdminTask = () => {
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">
+                <Label>Nro Incidencia</Label>
+                <Input
+                  type="number"
+                  placeholder="400090000..."
+                  {...register('incidencia')}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
                 <Label>Descripcion</Label>
                 <Input
                   type="text"
@@ -122,7 +130,7 @@ const ModalAdminTask = () => {
                   type="submit"
                   className="bg-green-500 hover:bg-green-400"
                 >
-                  Create Task
+                  Crear Tarea
                 </Button>
               </div>
             </form>

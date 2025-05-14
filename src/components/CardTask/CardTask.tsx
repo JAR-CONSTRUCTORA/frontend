@@ -2,9 +2,9 @@ import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
-
 type Props = Partial<Task> & {
   index: number
+  onClick: () => void
 }
 
 const CardTask: React.FC<Props> = ({
@@ -14,9 +14,9 @@ const CardTask: React.FC<Props> = ({
   location,
   status,
   completedOnTime,
+  onClick,
 }) => {
   const l = useLocation()
-  console.log(completedOnTime)
 
   const startTask = async () => {
     await axios.put(
@@ -45,10 +45,13 @@ const CardTask: React.FC<Props> = ({
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
+    <button
+      onClick={onClick}
+      className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl"
+    >
       <h3 className="mb-5 text-lg font-semibold">Tarea {index + 1}</h3>
       <div className="flex flex-col gap-1 font-medium text-gray-100">
-        <p className="truncate">Tarea: {description}</p>
+        <p className="line-clamp-2 break-words">Descripcion: {description}</p>
         <p>Lugar: {location}</p>
         <p>
           Status:{' '}
@@ -77,7 +80,10 @@ const CardTask: React.FC<Props> = ({
           )}
         </div>
       </div>
-    </div>
+      <span className="absolute top-full left-1/2 z-10 mt-2 hidden -translate-x-1/2 rounded bg-gray-800 px-2 py-1 text-sm text-white group-hover:block">
+        Ver detalle
+      </span>
+    </button>
   )
 }
 

@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 const HomeUser = () => {
   const { user } = useAuthStore()
   const [tasksData, setTasksData] = useState<Task[]>([])
-  console.log(tasksData)
 
   const getTasks = async () => {
     const tasksResp = await axios.get(

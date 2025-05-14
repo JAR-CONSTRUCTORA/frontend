@@ -24,7 +24,6 @@ const LoginForm = () => {
   const { getUser, getToken } = useAuthStore()
 
   const onSubmitLogin = async (loginData: LoginData) => {
-    console.log(loginData)
     const loginResp: any = await axios
       .post('http://localhost:8000/login', loginData, {
         headers: {
@@ -33,7 +32,6 @@ const LoginForm = () => {
       })
       .catch((error) => alert(error.response.data.message))
 
-    console.log(loginResp)
 
     if (loginResp.status === 200) {
       alert('Login exitoso')

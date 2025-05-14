@@ -23,7 +23,6 @@ const ComboBoxWorkers = () => {
       alert('Ya asignaste este trabajador')
     } else {
       const updated = [...selectedWorkers]
-      console.log(updated)
       updated[index] = worker
       setSelectedWorkers(updated)
       setCurrentIndex(index)

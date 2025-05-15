@@ -47,7 +47,6 @@ const CardTask: React.FC<Props> = ({
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:shadow-xl">
     <button
       onClick={onClick}
       className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl"

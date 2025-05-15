@@ -14,6 +14,7 @@ const DashboardAdmin = () => {
   const navigate = useNavigate()
   const { setWorkers } = useDataStore()
   const [allTasksData, setAllTasksData] = useState<Task[]>([])
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
 
   const getWorkers = async () => {
     const workersResp = await axios.get('http://localhost:8000/user/workers')
@@ -31,18 +32,6 @@ const DashboardAdmin = () => {
     if (user?.role != 'Admin') navigate('/dashboard')
   }, [])
 
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
-  useEffect(() => {
-    if (selectedTask) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [selectedTask])
   return (
     <div className="grid grid-cols-1 bg-[#1a1a1a] px-4 py-2 text-gray-200 lg:grid-cols-12">
       <aside className="mb-4 h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-[#212121] p-4 shadow-lg lg:col-span-2 lg:mr-4 lg:mb-0">

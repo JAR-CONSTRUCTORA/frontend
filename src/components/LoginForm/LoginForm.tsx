@@ -44,7 +44,9 @@ const LoginForm = () => {
   return (
     <Card className="mx-auto mt-10 w-full max-w-md p-4">
       <CardHeader>
-        <CardTitle className="text-center text-lg">Iniciar sesión</CardTitle>
+        <CardTitle className="text-center text-lg font-bold">
+          JAR CONSTRUCCIONES
+        </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmitLogin)}>
         <CardContent className="flex flex-col gap-4">

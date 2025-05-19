@@ -12,17 +12,20 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
-import { useForm } from 'react-hook-form'
+import { FieldErrors, useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-type TaskFormData = {
-  incidencia?: number
-  description: string
-  location: string
-  estimatedTime: number
-}
+const taskSchema = z.object({
+  incidencia: z.string().optional(),
+  description: z.string().min(1, 'La descripción es obligatoria'),
+  location: z.string().min(1, 'La dirección es obligatoria'),
+  estimatedTime: z.string().min(1, 'Tiempo estimado requerido'),
+})
+type TaskFormData = z.infer<typeof taskSchema>
 
 const ModalAdminTask = () => {
   const {
@@ -30,7 +33,10 @@ const ModalAdminTask = () => {
     handleSubmit,
     formState: { isValid },
     reset,
-  } = useForm()
+  } = useForm<TaskFormData>({
+    resolver: zodResolver(taskSchema),
+    mode: 'onChange',
+  })
 
   const { selectedWorkers } = useDataStore()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
@@ -46,18 +52,17 @@ const ModalAdminTask = () => {
       alert('Se requiere un trabajador como minimo')
     }
   }
-  const onSubmit = async (e: TaskFormData) => {
-    console.log(e)
+  const onSubmit = async (data: z.infer<typeof taskSchema>) => {
     try {
-      await axios.post(
-        'http://localhost:8000/task/createTask',
-        { ...e, assignees: selectedWorkers },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
+      if (selectedWorkers.length < 1) {
+        toast.error('Debes asignar al menos un trabajador')
+        return
+      }
+
+      await axios.post('http://localhost:8000/task/createTask', {
+        ...data,
+        assignees: selectedWorkers,
+      })
 
       toast.success('¡Tarea creada con éxito!')
       reset()
@@ -66,6 +71,13 @@ const ModalAdminTask = () => {
     } catch (error) {
       console.error(error)
       toast.error('Error al crear la tarea. Intentalo de nuevo.')
+    }
+  }
+
+  const onInvalid = (errors: FieldErrors<TaskFormData>) => {
+    const values = Object.values(errors)
+    if (values.length > 0 && values[0]?.message) {
+      toast.error(values[0].message)
     }
   }
 
@@ -81,7 +93,7 @@ const ModalAdminTask = () => {
           </DialogTitle>
           <DialogDescription>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit, onInvalid)}
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">

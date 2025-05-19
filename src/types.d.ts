@@ -9,6 +9,8 @@ export interface User {
 
 export interface Task {
   _id: string
+  station: string
+  incidencia?: number
   description: string
   location: string
   estimatedTime: number

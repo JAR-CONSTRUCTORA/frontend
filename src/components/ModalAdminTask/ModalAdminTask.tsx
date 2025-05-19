@@ -63,7 +63,7 @@ const ModalAdminTask = () => {
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">
-                <Label>Nro Incidencia</Label>
+                <Label>Nro Incidencia (Opcional)</Label>
                 <Input
                   type="number"
                   placeholder="400090000..."

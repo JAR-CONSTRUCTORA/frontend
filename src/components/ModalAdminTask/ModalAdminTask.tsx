@@ -17,6 +17,13 @@ import { useDataStore } from '@/store/dataStore'
 import axios from 'axios'
 import { toast } from 'sonner'
 
+type TaskFormData = {
+  incidencia?: number
+  description: string
+  location: string
+  estimatedTime: number
+}
+
 const ModalAdminTask = () => {
   const {
     register,
@@ -39,7 +46,8 @@ const ModalAdminTask = () => {
       alert('Se requiere un trabajador como minimo')
     }
   }
-  const onSubmit = async (e: any) => {
+  const onSubmit = async (e: TaskFormData) => {
+    console.log(e)
     try {
       await axios.post(
         'http://localhost:8000/task/createTask',

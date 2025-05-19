@@ -15,15 +15,20 @@ import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import { useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
 import axios from 'axios'
+import { toast } from 'sonner'
 
 const ModalAdminTask = () => {
   const {
     register,
     handleSubmit,
     formState: { isValid },
+    reset,
   } = useForm()
+
   const { selectedWorkers } = useDataStore()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
+  const [isOpen, setIsOpen] = useState(false)
+
   const addWorker = () => {
     setAssignessArray([...assignessArray, null])
   }
@@ -34,24 +39,30 @@ const ModalAdminTask = () => {
       alert('Se requiere un trabajador como minimo')
     }
   }
-
   const onSubmit = async (e: any) => {
-    const taskPostResp = await axios.post(
-      'http://localhost:8000/task/createTask',
-      { ...e, assignees: selectedWorkers },
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    try {
+      await axios.post(
+        'http://localhost:8000/task/createTask',
+        { ...e, assignees: selectedWorkers },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    )
-    if (taskPostResp.data.message) {
-      alert(`${taskPostResp.data.message}`)
+      )
+
+      toast.success('¡Tarea creada con éxito!')
+      reset()
+      setAssignessArray([null])
+      setIsOpen(false)
+    } catch (error) {
+      console.error(error)
+      toast.error('Error al crear la tarea. Intentalo de nuevo.')
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="m-0 flex h-full w-full items-center justify-center p-0 text-xl font-medium">
         <span className="tracking-wider">+ Crear Tarea</span>
       </DialogTrigger>

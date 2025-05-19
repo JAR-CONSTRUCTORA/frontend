@@ -28,12 +28,7 @@ const taskSchema = z.object({
 type TaskFormData = z.infer<typeof taskSchema>
 
 const ModalAdminTask = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid },
-    reset,
-  } = useForm<TaskFormData>({
+  const { register, handleSubmit, reset } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
     mode: 'onChange',
   })
@@ -164,7 +159,6 @@ const ModalAdminTask = () => {
               </div>
               <div className="flex justify-end">
                 <Button
-                  disabled={!isValid || selectedWorkers.length < 1}
                   type="submit"
                   className="bg-green-500 text-white hover:bg-green-400"
                 >

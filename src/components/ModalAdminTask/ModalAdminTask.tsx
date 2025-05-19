@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import {
   Dialog,
@@ -11,18 +12,31 @@ import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
-import { useForm } from 'react-hook-form'
+import { FieldErrors, useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
 import axios from 'axios'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const taskSchema = z.object({
+  incidencia: z.string().optional(),
+  description: z.string().min(1, 'La descripción es obligatoria'),
+  location: z.string().min(1, 'La dirección es obligatoria'),
+  estimatedTime: z.string().min(1, 'Tiempo estimado requerido'),
+})
+type TaskFormData = z.infer<typeof taskSchema>
 
 const ModalAdminTask = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm()
+  const { register, handleSubmit, reset } = useForm<TaskFormData>({
+    resolver: zodResolver(taskSchema),
+    mode: 'onChange',
+  })
+
   const { selectedWorkers } = useDataStore()
   const [assignessArray, setAssignessArray] = useState(Array(1).fill(null))
+  const [isOpen, setIsOpen] = useState(false)
+
   const addWorker = () => {
     setAssignessArray([...assignessArray, null])
   }
@@ -33,83 +47,104 @@ const ModalAdminTask = () => {
       alert('Se requiere un trabajador como minimo')
     }
   }
+  const onSubmit = async (data: z.infer<typeof taskSchema>) => {
+    try {
+      if (selectedWorkers.length < 1) {
+        toast.error('Debes asignar al menos un trabajador')
+        return
+      }
 
-  const onSubmit = async (e: any) => {
-    const taskPostResp = await axios.post(
-      'http://localhost:8000/task/createTask',
-      { ...e, assignees: selectedWorkers },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    if (taskPostResp.data.message) {
-      alert(`${taskPostResp.data.message}`)
+      await axios.post('http://localhost:8000/task/createTask', {
+        ...data,
+        assignees: selectedWorkers,
+      })
+
+      toast.success('¡Tarea creada con éxito!')
+      reset()
+      setAssignessArray([null])
+      setIsOpen(false)
+    } catch (error) {
+      console.error(error)
+      toast.error('Error al crear la tarea. Intentalo de nuevo.')
+    }
+  }
+
+  const onInvalid = (errors: FieldErrors<TaskFormData>) => {
+    const values = Object.values(errors)
+    if (values.length > 0 && values[0]?.message) {
+      toast.error(values[0].message)
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="m-0 flex h-full w-full items-center justify-center p-0 text-xl font-medium">
         <span className="tracking-wider">+ Crear Tarea</span>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Creador de Tareas</DialogTitle>
+      <DialogContent className="border border-white/10 bg-[#2a2a2a] text-gray-300 shadow-lg">
+        <DialogHeader className="border-b border-white/10 pb-4">
+          <DialogTitle className="text-xl font-bold text-white">
+            Creador de Tareas
+          </DialogTitle>
           <DialogDescription>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit, onInvalid)}
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">
-                <Label>Nro Incidencia (Opcional)</Label>
+                <Label className="text-gray-400">
+                  Nro Incidencia (Opcional)
+                </Label>
                 <Input
                   type="number"
                   placeholder="400090000..."
+                  className="border border-white/10 bg-[#1e1e1e] text-white"
                   {...register('incidencia')}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <Label>Descripcion</Label>
+                <Label className="text-gray-400">Descripcion</Label>
                 <Input
                   type="text"
                   placeholder="Arreglar aire acondicionado..."
+                  className="border border-white/10 bg-[#1e1e1e] text-white"
                   {...register('description', { required: true })}
                 />
               </div>
               <div className="flex w-full gap-2">
                 <div className="flex w-full flex-col gap-1">
-                  <Label>Direccion</Label>
+                  <Label className="text-gray-400">Direccion</Label>
                   <Input
                     type="text"
                     placeholder="Rivadavia 1200..."
+                    className="border border-white/10 bg-[#1e1e1e] text-white"
                     {...register('location', { required: true })}
                   />
                 </div>
                 <div className="flex w-full flex-col gap-1">
-                  <Label>Tiempo:</Label>
+                  <Label className="text-gray-400">Tiempo:</Label>
                   <Input
                     type="number"
                     placeholder="2 horas"
+                    className="border border-white/10 bg-[#1e1e1e] text-white"
                     {...register('estimatedTime', { required: true })}
                   />
                 </div>
               </div>
               <div className="flex w-full flex-col gap-1">
                 <div className="flex gap-2">
-                  <Label>Asigna trabajadores:</Label>
+                  <Label className="text-gray-400">Asigna trabajadores:</Label>
                   <div className="flex gap-1">
                     <Button
                       type="button"
-                      className="w-fit border-1 bg-white text-blue-400 hover:bg-inherit"
+                      className="w-fit border border-white/10 bg-[#2a2a2a] text-blue-400 hover:bg-[#1e1e1e]"
                       onClick={addWorker}
                     >
                       +
                     </Button>
                     <Button
                       type="button"
-                      className="border-1 bg-white text-red-400 hover:bg-inherit"
+                      className="border border-white/10 bg-[#2a2a2a] text-red-400 hover:bg-[#1e1e1e]"
                       onClick={deleteWorker}
                     >
                       -
@@ -117,16 +152,15 @@ const ModalAdminTask = () => {
                   </div>
                 </div>
                 <div className="flex w-full flex-wrap gap-2">
-                  {assignessArray.map((_) => (
-                    <ComboBoxWorkers />
+                  {assignessArray.map((_, i) => (
+                    <ComboBoxWorkers key={i} i={i} />
                   ))}
                 </div>
               </div>
               <div className="flex justify-end">
                 <Button
-                  disabled={!isValid || selectedWorkers.length < 1}
                   type="submit"
-                  className="bg-green-500 hover:bg-green-400"
+                  className="bg-green-500 text-white hover:bg-green-400"
                 >
                   Crear Tarea
                 </Button>

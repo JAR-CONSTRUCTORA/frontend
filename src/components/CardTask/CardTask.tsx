@@ -14,6 +14,7 @@ const CardTask: React.FC<Props> = ({
   status,
   completedOnTime,
   startDateTime,
+  incidencia,
   onClick,
 }) => {
   console.log(startDateTime?.getDate)
@@ -53,6 +54,12 @@ const CardTask: React.FC<Props> = ({
     >
       <div className="flex flex-col gap-1 font-medium text-gray-100">
         <h3 className="mb-5 text-lg font-semibold">Nombre estacion</h3>
+        {incidencia && (
+          <p className="line-clamp-2 break-words">
+            Nro. Incidencia: {incidencia}
+          </p>
+        )}
+
         <p className="line-clamp-2 break-words">Descripcion: {description}</p>
         <p>Lugar: {location}</p>
         <p>

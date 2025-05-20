@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import {
   Dialog,
@@ -18,8 +17,10 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { stations } from '@/helpers/stationArray'
 
 const taskSchema = z.object({
+  station: z.string().optional(),
   incidencia: z.string().optional(),
   description: z.string().min(1, 'La descripción es obligatoria'),
   location: z.string().min(1, 'La dirección es obligatoria'),
@@ -92,6 +93,17 @@ const ModalAdminTask = () => {
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">
+                <Label className="text-gray-400">Seleccione estacion:</Label>
+                <select
+                  className="block w-full rounded-md border border-white/10 bg-[#1e1e1e] px-2 py-2 text-white focus:border-gray-500"
+                  {...register('station')}
+                >
+                  {stations.map((station) => (
+                    <option value={station}>{station}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-2">
                 <Label className="text-gray-400">
                   Nro Incidencia (Opcional)
                 </Label>

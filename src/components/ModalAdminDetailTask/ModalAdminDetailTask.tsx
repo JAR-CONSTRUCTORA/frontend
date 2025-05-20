@@ -3,6 +3,8 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
+import axios from 'axios'
+import { useDataStore } from '@/store/dataStore'
 
 type Props = {
   task: Task
@@ -11,19 +13,30 @@ type Props = {
 
 const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
+  const { workersList } = useDataStore()
   const { register, handleSubmit } = useForm()
 
-  const handleEdit = (e: any) => {
+  const handleEdit = async (e: any) => {
     console.log(e)
+    const taskEditResp = await axios.put(
+      `http://localhost:8000/task/editTask/${task._id}`,
+      { ...e, assignees: workersList },
+      { headers: { 'Content-Type': 'application/json' } },
+    )
+    if (taskEditResp.status === 200) {
+      alert('Tarea editada correctamente!')
+    }
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="flex h-[80vh] w-full max-w-md flex-col rounded-xl border border-white/10 bg-[#2a2a2a] shadow-lg">
         {/* Header */}
-        <div className="border-b border-white/10 p-6">
-          {isEdit && (
-            <p className="text-sm text-green-500">Modo de edicion de tarea</p>
-          )}
+        <div className="flex flex-col border-b border-white/10 p-6">
+          <div className="min-h-[1rem]">
+            {isEdit && (
+              <p className="text-xs text-green-500">Modo de edicion de tarea</p>
+            )}
+          </div>
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">Estacion</h3>
             <button

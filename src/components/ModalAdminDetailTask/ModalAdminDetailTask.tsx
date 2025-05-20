@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import axios from 'axios'
 import { useDataStore } from '@/store/dataStore'
+import { toast } from 'sonner'
 
 type Props = {
   task: Task
@@ -17,14 +18,22 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
   const { register, handleSubmit } = useForm()
 
   const handleEdit = async (e: any) => {
-    console.log(e)
+    const hasChanged =
+      e.description !== task.description || e.location !== task.location
+
+    if (!hasChanged) {
+      toast.info('No se detectaron cambios.')
+      return
+    }
+
     const taskEditResp = await axios.put(
       `http://localhost:8000/task/editTask/${task._id}`,
       { ...e, assignees: workersList },
       { headers: { 'Content-Type': 'application/json' } },
     )
     if (taskEditResp.status === 200) {
-      alert('Tarea editada correctamente!')
+      toast.success('Tarea editada con exito!')
+      setIsEdit(false)
     }
   }
   return (

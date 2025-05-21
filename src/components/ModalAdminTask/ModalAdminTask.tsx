@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import {
   Dialog,
@@ -18,8 +17,10 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { stations } from '@/helpers/stationArray'
 
 const taskSchema = z.object({
+  station: z.string().optional(),
   incidencia: z.string().optional(),
   description: z.string().min(1, 'La descripción es obligatoria'),
   location: z.string().min(1, 'La dirección es obligatoria'),
@@ -44,7 +45,7 @@ const ModalAdminTask = () => {
     if (assignessArray.length > 1) {
       setAssignessArray(assignessArray.slice(0, -1))
     } else {
-      alert('Se requiere un trabajador como minimo')
+      toast.error('Se requiere un trabajador como minimo')
     }
   }
   const onSubmit = async (data: z.infer<typeof taskSchema>) => {
@@ -64,7 +65,6 @@ const ModalAdminTask = () => {
       setAssignessArray([null])
       setIsOpen(false)
     } catch (error) {
-      console.error(error)
       toast.error('Error al crear la tarea. Intentalo de nuevo.')
     }
   }
@@ -92,6 +92,17 @@ const ModalAdminTask = () => {
               className="flex flex-col gap-4"
             >
               <div className="mt-2 flex flex-col gap-2">
+                <Label className="text-gray-400">Seleccione estacion:</Label>
+                <select
+                  className="block w-full rounded-md border border-white/10 bg-[#1e1e1e] px-2 py-2 text-white focus:border-gray-500"
+                  {...register('station')}
+                >
+                  {stations.map((station) => (
+                    <option value={station}>{station}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-2">
                 <Label className="text-gray-400">
                   Nro Incidencia (Opcional)
                 </Label>
@@ -132,19 +143,19 @@ const ModalAdminTask = () => {
                 </div>
               </div>
               <div className="flex w-full flex-col gap-1">
-                <div className="flex gap-2">
+                <div className="flex justify-between gap-2">
                   <Label className="text-gray-400">Asigna trabajadores:</Label>
-                  <div className="flex gap-1">
+                  <div className="flex justify-end gap-1">
                     <Button
                       type="button"
-                      className="w-fit border border-white/10 bg-[#2a2a2a] text-blue-400 hover:bg-[#1e1e1e]"
+                      className="h-8 w-8 border border-white/10 bg-[#2a2a2a] font-extrabold text-blue-400 hover:bg-[#1e1e1e]"
                       onClick={addWorker}
                     >
                       +
                     </Button>
                     <Button
                       type="button"
-                      className="border border-white/10 bg-[#2a2a2a] text-red-400 hover:bg-[#1e1e1e]"
+                      className="h-8 w-8 border border-white/10 bg-[#2a2a2a] font-extrabold hover:bg-[#1e1e1e]"
                       onClick={deleteWorker}
                     >
                       -

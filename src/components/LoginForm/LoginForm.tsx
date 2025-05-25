@@ -12,6 +12,7 @@ import { Label } from '../ui/label'
 import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 interface LoginData {
   username: string
@@ -32,9 +33,8 @@ const LoginForm = () => {
       })
       .catch((error) => alert(error.response.data.message))
 
-
     if (loginResp.status === 200) {
-      alert('Login exitoso')
+      toast.success('Inicio de sesión exitoso')
       getUser(loginResp.data.userLogged)
       getToken(loginResp.data.token)
       navigate('/dashboard')

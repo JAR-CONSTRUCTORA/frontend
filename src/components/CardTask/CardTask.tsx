@@ -70,7 +70,7 @@ const CardTask: React.FC<Props> = ({
             {status}
           </span>
         </p>
-        <p className={`${completedOnTime ? 'text-green-500' : 'text-red-500'}`}>
+        <p className={`${completedOnTime ? 'text-green-500' : 'text-red-400'}`}>
           {completedOnTime ? 'Completado en tiempo' : 'No completo a tiempo'}
         </p>
         <div className="mt-4 w-full">

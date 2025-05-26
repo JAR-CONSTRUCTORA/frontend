@@ -1,13 +1,7 @@
 import { useAuthStore } from '@/store/authStore'
-import {
-  ArrowBigLeft,
-  Check,
-  House,
-  Logs,
-  ShieldUser,
-  User,
-} from 'lucide-react'
+import { LogOut, Check, House, Logs, ShieldUser, User } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const Sidebar = () => {
   const { user } = useAuthStore()
@@ -15,8 +9,22 @@ const Sidebar = () => {
   const basePath = user?.role === 'Admin' ? 'admin' : 'user'
 
   const handleSignOut = () => {
-    useAuthStore.persist.clearStorage()
-    useAuthStore.setState({ user: null, token: null })
+    toast.warning('¿Estas seguro que quieres salir?', {
+      action: {
+        label: 'Sí',
+        onClick: () => {
+          useAuthStore.persist.clearStorage()
+          useAuthStore.setState({ user: null, token: null })
+          return
+        },
+      },
+      cancel: {
+        label: 'No',
+        onClick: () => {
+          return
+        },
+      },
+    })
   }
 
   return (
@@ -67,11 +75,11 @@ const Sidebar = () => {
       </div>
 
       <div
-        className="mb-4 flex cursor-pointer items-center justify-center rounded-md border-2 border-white/25 bg-inherit py-6 font-bold text-gray-300 hover:bg-white/30"
+        className="mb-4 flex cursor-pointer items-center justify-center rounded-md border-2 border-red-300 bg-red-400 py-6 font-bold text-gray-300 hover:bg-red-500"
         onClick={() => handleSignOut()}
       >
-        <ArrowBigLeft />
-        <span>Sign Out</span>
+        <LogOut />
+        <span>Salir</span>
       </div>
     </div>
   )

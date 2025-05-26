@@ -2,9 +2,11 @@ import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'sonner'
+
 type Props = Partial<Task> & {
   index: number
-  onClick: () => void
+  onClick?: () => void
 }
 
 const CardTask: React.FC<Props> = ({
@@ -30,7 +32,7 @@ const CardTask: React.FC<Props> = ({
         },
       },
     )
-    alert('Se empezo el trabajo')
+    toast.success('Se empezo el trabajo')
   }
 
   //El empleado que agregue una nota sobre lo que realizo.
@@ -65,21 +67,22 @@ const CardTask: React.FC<Props> = ({
         <p>
           Estado:{' '}
           <span
-            className={`text-gray-400 ${status === 'In progress' && 'text-red-500'} ${status === 'Completed' && 'text-green-500'}`}
+            className={`text-gray-400 ${status === 'En progreso' && 'text-red-500'} ${status === 'Completada' && 'text-green-500'}`}
           >
             {status}
           </span>
         </p>
         <p className={`${completedOnTime ? 'text-green-500' : 'text-red-500'}`}>
-          {completedOnTime ? 'Completado en tiempo' : 'No completo a tiempo'}
+          {status === 'Completada' &&
+            (completedOnTime ? 'Completado en tiempo' : 'No completo a tiempo')}
         </p>
         <div className="mt-4 w-full">
-          {l.pathname === '/user/home' && status === 'Pending' && (
+          {l.pathname === '/user/home' && status === 'Pendiente' && (
             <Button className="w-full" onClick={startTask}>
               Empezar tarea
             </Button>
           )}
-          {l.pathname === '/user/home' && status === 'In progress' && (
+          {l.pathname === '/user/home' && status === 'En progreso' && (
             <Button
               className="w-full bg-green-500 hover:bg-green-400"
               onClick={endTask}

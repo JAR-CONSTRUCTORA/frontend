@@ -1,6 +1,7 @@
 import { Task } from '@/types'
-import React from 'react'
+import React, { useState } from 'react'
 import { CardTask } from '../CardTask'
+import { ModalUserDetailTask } from '../ModalUserDetailTask'
 
 interface Prop {
   data: Task[]
@@ -8,6 +9,7 @@ interface Prop {
 }
 
 const Dashboard: React.FC<Prop> = ({ data, section }) => {
+  const [selectedTask, setSelectedTask] = useState<Task | null>()
   return (
     <main className="rounded-2xl border border-white/10 bg-[#212121] p-6 shadow-lg lg:col-span-10">
       <header className="mb-6 flex gap-2">
@@ -17,9 +19,20 @@ const Dashboard: React.FC<Prop> = ({ data, section }) => {
       </header>
       <section className="grid grid-cols-4 gap-6">
         {data?.map((task, i) => (
-          <CardTask key={task._id} {...task} index={i} />
+          <CardTask
+            onClick={() => setSelectedTask(task)}
+            key={task._id}
+            {...task}
+            index={i}
+          />
         ))}
       </section>
+      {selectedTask && (
+        <ModalUserDetailTask
+          {...selectedTask}
+          setSelectedTask={setSelectedTask}
+        />
+      )}
     </main>
   )
 }

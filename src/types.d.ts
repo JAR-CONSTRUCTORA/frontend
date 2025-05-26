@@ -7,6 +7,17 @@ export interface User {
   role: string
 }
 
+interface UserSender {
+  _id: string
+  firstName: string
+  lastName: string
+}
+
+interface NoteContent {
+  sender: UserSender
+  content: string
+}
+
 export interface Task {
   _id: string
   station: string
@@ -18,5 +29,6 @@ export interface Task {
   enDateTime: Date
   status: string
   assignees: User[]
+  note: NoteContent
   completedOnTime: boolean
 }

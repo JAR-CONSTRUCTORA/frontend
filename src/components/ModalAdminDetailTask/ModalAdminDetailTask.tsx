@@ -123,15 +123,17 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
             )}
           </div>
           <div className="flex flex-col flex-wrap">
-            {task.note && (
+            {task.notes.length > 0 && (
               <div>
                 <h4>Notas de trabajadores:</h4>
-                <div className="flex gap-2 border-1 border-white/35 px-4 py-1">
-                  <span className="flex items-end text-sm">
-                    {task.note?.sender.firstName} {task.note?.sender.lastName}
-                  </span>
-                  :<p>{task.note?.content}</p>
-                </div>
+                {task.notes.map((note) => (
+                  <div className="flex gap-2 border-1 border-white/35 px-4 py-1">
+                    <span className="flex items-end text-sm">
+                      {note?.sender.firstName} {note?.sender.lastName}
+                    </span>
+                    :<p>{note?.content}</p>
+                  </div>
+                ))}
               </div>
             )}
           </div>

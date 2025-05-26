@@ -29,6 +29,6 @@ export interface Task {
   enDateTime: Date
   status: string
   assignees: User[]
-  note: NoteContent
+  notes: NoteContent[]
   completedOnTime: boolean
 }

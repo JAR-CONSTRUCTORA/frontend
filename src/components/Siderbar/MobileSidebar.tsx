@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useAuthStore } from '@/store/authStore'
+import React from 'react'
 import {
-  ArrowBigLeft,
+  LogOut,
   Check,
   House,
   Logs,
@@ -11,6 +12,7 @@ import {
   X,
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const MobileSidebar = () => {
   const { user } = useAuthStore()
@@ -25,6 +27,25 @@ const MobileSidebar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
+  }
+
+  const handleSignOutClick = () => {
+    toast.warning('¿Estas seguro que quieres salir?', {
+      action: {
+        label: 'Sí',
+        onClick: () => {
+          handleSignOut()
+          toggleMenu()
+          return
+        },
+      },
+      cancel: {
+        label: 'No',
+        onClick: () => {
+          return
+        },
+      },
+    })
   }
 
   return (
@@ -101,13 +122,12 @@ const MobileSidebar = () => {
 
           <button
             onClick={() => {
-              handleSignOut()
-              toggleMenu()
+              handleSignOutClick()
             }}
-            className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-white/25 bg-inherit py-3 font-bold text-gray-300 hover:bg-white/30"
+            className="mb-4 flex items-center justify-center gap-2 rounded-md border-2 border-red-300 bg-red-400 py-3 font-bold text-gray-300 hover:bg-red-500"
           >
-            <ArrowBigLeft />
-            <span>Sign Out</span>
+            <LogOut />
+            <span>Salir</span>
           </button>
         </div>
       </div>

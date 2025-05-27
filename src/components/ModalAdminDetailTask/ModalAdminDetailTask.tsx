@@ -132,6 +132,21 @@ const ModalAdminDetailTask: React.FC<Props> = ({ task, onClose }) => {
               </div>
             )}
           </div>
+          <div className="flex flex-col flex-wrap">
+            {task.notes.length > 0 && (
+              <div>
+                <h4>Notas de trabajadores:</h4>
+                {task.notes.map((note) => (
+                  <div className="flex gap-2 border-1 border-white/35 px-4 py-1">
+                    <span className="flex items-end text-sm">
+                      {note?.sender.firstName} {note?.sender.lastName}
+                    </span>
+                    :<p>{note?.content}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {/* Footer */}
         <div className="border-t border-white/10 p-4">

@@ -19,7 +19,6 @@ const CardTask: React.FC<Props> = ({
   incidencia,
   onClick,
 }) => {
-  console.log(startDateTime?.getDate)
   const l = useLocation()
 
   const startTask = async () => {

@@ -1,4 +1,5 @@
 import { CardTask } from '@/components/CardTask'
+import Filters from '@/components/Filters/Filters'
 import ModalAdminDetailTask from '@/components/ModalAdminDetailTask/ModalAdminDetailTask'
 import { ModalAdminTask } from '@/components/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
@@ -62,9 +63,10 @@ const DashboardAdmin = () => {
             <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
               <ModalAdminTask />
             </div>
+            <Filters setAllTasksData={setAllTasksData} />
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {allTasksData.map((task, i) => (
+              {allTasksData?.map((task, i) => (
                 <CardTask
                   key={i}
                   index={i}

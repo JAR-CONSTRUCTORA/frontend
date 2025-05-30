@@ -1,6 +1,6 @@
 import { Task } from '@/types'
 import { Button } from '../ui/button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import axios from 'axios'

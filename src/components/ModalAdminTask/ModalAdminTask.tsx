@@ -21,7 +21,7 @@ import { stations } from '@/helpers/stationArray'
 
 const taskSchema = z.object({
   station: z.string().optional(),
-  incidencia: z.string().optional(),
+  incidence: z.string().optional(),
   description: z.string().min(1, 'La descripción es obligatoria'),
   location: z.string().min(1, 'La dirección es obligatoria'),
   estimatedTime: z.string().min(1, 'Tiempo estimado requerido'),
@@ -110,7 +110,7 @@ const ModalAdminTask = () => {
                   type="number"
                   placeholder="400090000..."
                   className="border border-white/10 bg-[#1e1e1e] text-white"
-                  {...register('incidencia')}
+                  {...register('incidence')}
                 />
               </div>
               <div className="flex flex-col gap-2">

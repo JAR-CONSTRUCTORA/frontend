@@ -15,8 +15,7 @@ const CardTask: React.FC<Props> = ({
   location,
   status,
   completedOnTime,
-  startDateTime,
-  incidencia,
+  incidence,
   onClick,
 }) => {
   const l = useLocation()
@@ -59,9 +58,9 @@ const CardTask: React.FC<Props> = ({
       <div onClick={onClick}>
         <div className="flex flex-col gap-1 font-medium text-gray-100">
           <h3 className="mb-5 text-lg font-semibold">Nombre estacion</h3>
-          {incidencia && (
+          {incidence && (
             <p className="line-clamp-2 break-words">
-              Nro. Incidencia: {incidencia}
+              Nro. Incidencia: {incidence}
             </p>
           )}
 

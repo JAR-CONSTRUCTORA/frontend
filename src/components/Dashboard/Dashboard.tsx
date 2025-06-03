@@ -6,9 +6,10 @@ import { ModalUserDetailTask } from '../ModalUserDetailTask'
 interface Prop {
   data: Task[]
   section: string
+  getTasks: () => void
 }
 
-const Dashboard: React.FC<Prop> = ({ data, section }) => {
+const Dashboard: React.FC<Prop> = ({ data, section, getTasks }) => {
   const [selectedTask, setSelectedTask] = useState<Task | null>()
   return (
     <main className="rounded-2xl border border-white/10 bg-[#212121] p-6 shadow-lg lg:col-span-10">
@@ -24,6 +25,7 @@ const Dashboard: React.FC<Prop> = ({ data, section }) => {
             key={task._id}
             {...task}
             index={i}
+            getTasks={getTasks}
           />
         ))}
       </section>

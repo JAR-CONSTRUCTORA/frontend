@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 type Props = Partial<Task> & {
   index: number
   onClick?: () => void
+  getTasks?: () => void
 }
 
 const CardTask: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const CardTask: React.FC<Props> = ({
   completedOnTime,
   incidence,
   onClick,
+  getTasks,
 }) => {
   const l = useLocation()
 
@@ -30,6 +32,7 @@ const CardTask: React.FC<Props> = ({
         },
       },
     )
+    if (getTasks) getTasks
     toast.success('Se empezo el trabajo')
   }
 
@@ -43,6 +46,7 @@ const CardTask: React.FC<Props> = ({
         },
       },
     )
+    if (getTasks) getTasks
     endedTaskResp.data.task.completedOnTime
       ? toast.success('¡Tarea finalizada a tiempo! 🎉 Excelente trabajo.', {
           duration: 4000,

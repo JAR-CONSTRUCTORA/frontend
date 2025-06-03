@@ -26,7 +26,7 @@ const HomeUser = () => {
       <aside className="mb-4 h-[calc(100vh-2rem)] rounded-2xl border border-white/10 bg-[#212121] p-4 shadow-lg lg:col-span-2 lg:mr-4 lg:mb-0">
         <Sidebar />
       </aside>
-      <Dashboard data={tasksData} section="Tareas" />
+      <Dashboard data={tasksData} getTasks={getTasks} section="Tareas" />
     </Container>
   )
 }

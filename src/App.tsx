@@ -8,6 +8,7 @@ import { DashboardAdmin } from './pages/DashboardAdmin'
 import { HomeUser } from './pages/HomeUser'
 import { TasksImportant } from './pages/TasksImportant'
 import { TasksCompleted } from './pages/TasksCompleted'
+import { DashboardUserAdmin } from './pages/DashboardUserAdmin'
 
 const App = () => {
   const { token, user } = useAuthStore()
@@ -45,6 +46,7 @@ const App = () => {
         </Route>
         <Route path="/admin">
           <Route path="home" element={<DashboardAdmin />} />
+          <Route path="create-user" element={<DashboardUserAdmin />} />
         </Route>
       </Routes>
     </div>

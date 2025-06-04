@@ -32,7 +32,7 @@ const CardTask: React.FC<Props> = ({
         },
       },
     )
-    if (getTasks) getTasks
+    if (getTasks) getTasks()
     toast.success('Se empezo el trabajo')
   }
 
@@ -46,7 +46,7 @@ const CardTask: React.FC<Props> = ({
         },
       },
     )
-    if (getTasks) getTasks
+    if (getTasks) getTasks()
     endedTaskResp.data.task.completedOnTime
       ? toast.success('¡Tarea finalizada a tiempo! 🎉 Excelente trabajo.', {
           duration: 4000,

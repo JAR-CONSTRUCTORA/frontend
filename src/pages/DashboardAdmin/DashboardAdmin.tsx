@@ -59,7 +59,7 @@ const DashboardAdmin = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="h-[80dvh] space-y-6 overflow-y-scroll">
             <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
               <ModalAdminTask getTasks={getTasks} />
             </div>

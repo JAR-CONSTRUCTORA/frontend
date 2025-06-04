@@ -54,7 +54,7 @@ const LoginForm = () => {
             <Label htmlFor="email">Nombre de usuario</Label>
             <Input
               type="text"
-              placeholder="Marcosar"
+              placeholder="Ingrese un usuario"
               {...register('username')}
             />
           </div>

@@ -7,6 +7,10 @@ const Sidebar = () => {
   const { user } = useAuthStore()
   const { pathname } = useLocation()
   const basePath = user?.role === 'Admin' ? 'admin' : 'user'
+  const path = {
+    pathOne: user?.role === 'Admin' ? 'create-user' : 'important-tasks',
+    pathTwo: user?.role === 'Admin' ? 'all-user' : 'completed-tasks',
+  }
 
   const handleSignOut = () => {
     toast.warning('¿Estas seguro que quieres salir?', {
@@ -59,14 +63,16 @@ const Sidebar = () => {
           <span className="text-sm">Home</span>
         </Link>
         <Link
-          to={`/${basePath}/important-tasks`}
+          to={`/${basePath}/${path.pathOne}`}
           className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/important-tasks` && 'bg-white/30'}`}
         >
           <Logs className="h-5 w-5" />
-          <span className="text-sm">Importantes</span>
+          <span className="text-sm">
+            {user?.role == 'Admin' ? 'Usuarios' : 'Importantes'}
+          </span>
         </Link>
         <Link
-          to={`/${basePath}/completed-tasks`}
+          to={`/${basePath}/${path.pathTwo}`}
           className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
         >
           <Check className="h-5 w-5" />

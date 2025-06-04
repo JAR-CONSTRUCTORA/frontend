@@ -71,13 +71,15 @@ const Sidebar = () => {
             {user?.role == 'Admin' ? 'Usuarios' : 'Importantes'}
           </span>
         </Link>
-        <Link
-          to={`/${basePath}/${path.pathTwo}`}
-          className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
-        >
-          <Check className="h-5 w-5" />
-          <span className="text-sm">Completadas!</span>
-        </Link>
+        {user?.role === 'Employee' && (
+          <Link
+            to={`/${basePath}/${path.pathTwo}`}
+            className={`flex w-full gap-2 rounded px-2 py-2 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
+          >
+            <Check className="h-5 w-5" />
+            <span className="text-sm">Completadas!</span>
+          </Link>
+        )}
       </div>
 
       <div

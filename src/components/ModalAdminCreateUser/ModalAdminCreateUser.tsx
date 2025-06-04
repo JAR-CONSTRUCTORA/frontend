@@ -11,12 +11,24 @@ import { userSchema } from '@/schemas/formSchema'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import axios from 'axios'
 
 type userInfer = z.infer<typeof userSchema>
 
 const ModalAdminCreateUser = () => {
   const { handleSubmit, register } = useForm<userInfer>()
-  const onSubmit = () => {}
+  const onSubmit = async (e: userInfer) => {
+    const createUserResp = await axios.post(
+      'http://localhost:8000/user/createUser/',
+      e,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    if (createUserResp.status === 200) alert('Contacto creado')
+  }
   return (
     <Dialog>
       <DialogTrigger className="m-0 flex h-full w-full items-center justify-center p-0 text-xl font-medium">
@@ -33,7 +45,7 @@ const ModalAdminCreateUser = () => {
               <Label className="text-gray-400">Nombre de usuario</Label>
               <Input
                 type="text"
-                placeholder="Ingrese un nombre de usuario"
+                placeholder="Ingrese un nombre de usuario. Ej: empleadoapellido"
                 className="border border-white/10 bg-[#1e1e1e] text-white"
                 {...register('username')}
               />

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useAuthStore } from '@/store/authStore'
-import React from 'react'
 import {
   LogOut,
   Check,

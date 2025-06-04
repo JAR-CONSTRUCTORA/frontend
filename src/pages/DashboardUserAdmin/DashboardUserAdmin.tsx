@@ -1,5 +1,6 @@
-import { Container } from '@/components/Container'
+import ModalAdminCreateUser from '@/components/ModalAdminCreateUser/ModalAdminCreateUser'
 import { Sidebar } from '@/components/Siderbar'
+import MobileSidebar from '@/components/Siderbar/MobileSidebar'
 import { useAuthStore } from '@/store/authStore'
 
 const DashboardUserAdmin = () => {
@@ -23,6 +24,16 @@ const DashboardUserAdmin = () => {
             <p className="mt-2 text-sm text-gray-400">
               Aquí podrás gestionar y crear usuarios.
             </p>
+          </div>
+          <div className="lg:hidden">
+            <MobileSidebar />
+          </div>
+          <div className="space-y-6">
+            <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
+              <ModalAdminCreateUser />
+            </div>
+
+            <div className="grid h-[50dvh] grid-cols-1 gap-4 overflow-y-scroll sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
           </div>
         </main>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -61,7 +61,7 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
       toast.success('¡Tarea creada con éxito!')
       getTasks()
       reset()
-      setAssignessArray([null])
+      setAssignessArray([])
       setIsOpen(false)
     } catch (error) {
       toast.error('Error al crear la tarea. Intentalo de nuevo.')
@@ -74,6 +74,10 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
       toast.error(values[0].message)
     }
   }
+
+  useEffect(() => {
+    setAssignessArray(Array(1).fill(null))
+  }, [isOpen])
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -163,7 +167,7 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
                 </div>
                 <div className="flex w-full flex-wrap gap-2">
                   {assignessArray.map((_, i) => (
-                    <ComboBoxWorkers key={i} i={i} />
+                    <ComboBoxWorkers key={i} i={i} isOpen={isOpen} />
                   ))}
                 </div>
               </div>

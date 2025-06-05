@@ -55,8 +55,8 @@ const ModalAdminDetailTask: React.FC<Props> = ({
     setIsEdit(false)
   }
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="flex h-[80vh] w-full max-w-md flex-col rounded-xl border border-white/10 bg-[#2a2a2a] shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 text-white">
+      <div className="flex w-full max-w-md flex-col rounded-xl border border-white/10 bg-[#2a2a2a] shadow-lg">
         {/* Header */}
         <div className="flex flex-col border-b border-white/10 p-6">
           <div className="min-h-[1rem]">
@@ -65,7 +65,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             )}
           </div>
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold">Estacion</h3>
+            <h3 className="text-xl font-bold">Estacion: {task.station}</h3>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-white"
@@ -75,30 +75,30 @@ const ModalAdminDetailTask: React.FC<Props> = ({
           </div>
         </div>
         {/* Contenido con scroll */}
-        <div className="flex-1 space-y-4 overflow-y-auto p-6 text-gray-400">
-          <div>
-            <h4 className="text-sm">Descripcion</h4>
+        <div className="flex-1 space-y-4 overflow-y-auto p-6 text-gray-200">
+          <div className="flex gap-2">
+            <h4 className="text-sm font-bold">Descripcion:</h4>
             <input
               className="w-full text-sm"
               {...register('description')}
               readOnly={!isEdit}
             />
           </div>
-          <div>
-            <h4 className="text-sm">Ubicación</h4>
+          <div className="flex gap-2">
+            <h4 className="text-sm font-bold">Ubicación:</h4>
             <input
               className="w-full text-sm"
               {...register('location')}
               readOnly={!isEdit}
             />
           </div>
-          <div>
-            <h4 className="text-sm">Estado</h4>
+          <div className="flex gap-2">
+            <h4 className="text-sm font-bold">Estado:</h4>
             <p
               className={`w-full text-sm font-medium ${
-                task.status === 'In progress'
+                task.status === 'En progeso'
                   ? 'text-red-500'
-                  : task.status === 'Completed'
+                  : task.status === 'Completada'
                     ? 'text-green-500'
                     : 'text-gray-400'
               }`}
@@ -107,16 +107,16 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-400">Asignados:</p>
-            <div className="mt-2 flex flex-col gap-2">
+            <p className="text-sm font-bold">Trabajadores asignados:</p>
+            <div className="mt-2 flex w-full flex-col gap-2">
               {isEdit ? (
                 task.assignees.map((user, index) => (
                   <ComboBoxWorkers {...user} isEdit={isEdit} i={index} />
                 ))
               ) : (
-                <div className="flex w-fit flex-col gap-2">
+                <div className="flex w-full flex-col gap-2">
                   {task.assignees?.map((user) => (
-                    <Button disabled>
+                    <Button disabled className="w-full bg-red-500">
                       {user?.firstName} {user.lastName}
                     </Button>
                   ))}
@@ -142,7 +142,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             {task.notes.length > 0 && (
               <div>
                 <h4>Notas de trabajadores:</h4>
-                {task.notes.map((note) => (
+                {task.notes?.map((note) => (
                   <div className="flex gap-2 border-1 border-white/35 px-4 py-1">
                     <span className="flex items-end text-sm">
                       {note?.sender.firstName} {note?.sender.lastName}

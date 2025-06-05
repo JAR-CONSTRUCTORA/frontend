@@ -54,9 +54,9 @@ const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-center bg-blue-500 font-bold text-gray-200"
         >
-          {selectedWorker
+          {selectedWorker != undefined
             ? `${selectAssigneed?.firstName} ${selectAssigneed?.lastName}`
             : selectedWorkers.length > 0
               ? `${selectedWorkers[currentIndex]?.firstName} ${selectedWorkers[currentIndex]?.lastName}`
@@ -74,7 +74,7 @@ const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
                   key={worker._id}
                   onSelect={() => toggleWorkers(index, worker)}
                 >
-                  {worker.firstName} {worker.lastName}
+                  {worker?.firstName} {worker?.lastName}
                 </CommandItem>
               ))}
             </CommandGroup>

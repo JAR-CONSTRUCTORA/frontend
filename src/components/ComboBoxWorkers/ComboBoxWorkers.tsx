@@ -18,9 +18,10 @@ interface Prop {
   lastName?: string
   isEdit?: boolean
   i: number
+  isOpen?: boolean
 }
 
-const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
+const ComboBoxWorkers: React.FC<Prop> = ({ _id, i, isOpen }) => {
   const {
     workers,
     setSelectedWorkers,
@@ -29,7 +30,7 @@ const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
     replaceWorkerAtIndex,
   } = useDataStore()
   const [open, setOpen] = useState(false)
-  const [selectAssigneed, setSelectAssigneed] = useState<User>()
+  const [selectAssigneed, setSelectAssigneed] = useState<User | null>()
   const selectedWorker = workers?.find((w) => w._id == _id)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
 
@@ -47,6 +48,10 @@ const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
     selectedWorker && setWorkersList(selectedWorker)
   }, [selectedWorker])
 
+  useEffect(() => {
+    setSelectedWorkers(Array(0).fill(null))
+  }, [isOpen])
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -56,7 +61,7 @@ const ComboBoxWorkers: React.FC<Prop> = ({ _id, i }) => {
           aria-expanded={open}
           className="w-full justify-center bg-blue-500 font-bold text-gray-200"
         >
-          {selectedWorker != undefined
+          {selectedWorker
             ? `${selectAssigneed?.firstName} ${selectAssigneed?.lastName}`
             : selectedWorkers.length > 0
               ? `${selectedWorkers[currentIndex]?.firstName} ${selectedWorkers[currentIndex]?.lastName}`

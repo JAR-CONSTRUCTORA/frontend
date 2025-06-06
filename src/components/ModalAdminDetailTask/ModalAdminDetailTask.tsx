@@ -3,49 +3,24 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
-import axios from 'axios'
-import { useDataStore } from '@/store/dataStore'
-import { toast } from 'sonner'
 
 type Props = {
   task: Task
   onClose: () => void
   setSelectedTask: (arg: Task) => void
+  handleEdit: (task: Task, e: any) => void
 }
 
 const ModalAdminDetailTask: React.FC<Props> = ({
   task,
   onClose,
-  setSelectedTask,
+  handleEdit,
 }) => {
   console.log(task)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const { workersList } = useDataStore()
   const { register, handleSubmit, reset } = useForm({
     defaultValues: { description: task.description, location: task.location },
   })
-
-  const handleEdit = async (e: any) => {
-    const hasChanged =
-      e.description !== task.description || e.location !== task.location
-
-    if (!hasChanged) {
-      toast.info('No se detectaron cambios.')
-      return
-    }
-
-    const taskEditResp = await axios.put(
-      `http://localhost:8000/task/editTask/${task._id}`,
-      { ...e, assignees: workersList },
-      { headers: { 'Content-Type': 'application/json' } },
-    )
-    console.log(taskEditResp.data)
-    if (taskEditResp.status === 200) {
-      toast.success('Tarea editada con exito!')
-      setIsEdit(false)
-      setSelectedTask(taskEditResp.data.task)
-    }
-  }
 
   const handleClose = () => {
     reset({
@@ -117,7 +92,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
                 <div className="flex w-full flex-col gap-2">
                   {task.assignees?.map((user) => (
                     <Button disabled className="w-full bg-red-500">
-                      {user?.firstName} {user.lastName}
+                      {user?.firstName} {user?.lastName}
                     </Button>
                   ))}
                 </div>
@@ -161,7 +136,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
               <div className="flex gap-2">
                 <Button
                   className="bg-green-500 hover:bg-green-400"
-                  onClick={handleSubmit(handleEdit)}
+                  onClick={handleSubmit((e) => handleEdit(task, e))}
                 >
                   Guardar
                 </Button>

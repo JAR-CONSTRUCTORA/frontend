@@ -1,12 +1,11 @@
 import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
-import { toast } from 'sonner'
 
 interface Prop extends Task {
   setSelectedTask: (arg: null) => void
+  sendNote: (id: string, userId: string, note: string) => void
 }
 
 const ModalUserDetailTask: React.FC<Prop> = ({
@@ -16,29 +15,11 @@ const ModalUserDetailTask: React.FC<Prop> = ({
   completedOnTime,
   _id,
   setSelectedTask,
+  sendNote,
 }) => {
   const { user } = useAuthStore()
   const { register, watch, handleSubmit } = useForm()
   const values = watch()
-
-  const sendNote = async (e: any) => {
-    console.log(e.note)
-    const noteResp = await axios.put(
-      `http://localhost:8000/task/sendnote/${_id}`,
-      {
-        idSender: user?._id,
-        content: e.note,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    if (noteResp.status === 200) {
-      toast.success('Se envio la nota')
-    }
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -98,7 +79,13 @@ const ModalUserDetailTask: React.FC<Prop> = ({
                   {...register('note')}
                 />
                 {values.note && (
-                  <Button onClick={handleSubmit(sendNote)}>Enviar Nota</Button>
+                  <Button
+                    onClick={handleSubmit(() => {
+                      user?._id && sendNote(_id, user._id, values.note)
+                    })}
+                  >
+                    Enviar Nota
+                  </Button>
                 )}
               </div>
             ) : null}

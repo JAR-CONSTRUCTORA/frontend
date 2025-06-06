@@ -11,24 +11,15 @@ import { userSchema } from '@/schemas/formSchema'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import axios from 'axios'
 
 type userInfer = z.infer<typeof userSchema>
 
-const ModalAdminCreateUser = () => {
+type Prop = {
+  createUser: (e: userInfer) => void
+}
+const ModalAdminCreateUser: React.FC<Prop> = ({ createUser }) => {
   const { handleSubmit, register } = useForm<userInfer>()
-  const onSubmit = async (e: userInfer) => {
-    const createUserResp = await axios.post(
-      'http://localhost:8000/user/createUser/',
-      e,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    if (createUserResp.status === 200) alert('Contacto creado')
-  }
+
   return (
     <Dialog>
       <DialogTrigger className="m-0 flex h-full w-full items-center justify-center p-0 text-xl font-medium">
@@ -38,7 +29,7 @@ const ModalAdminCreateUser = () => {
         <DialogHeader>Creador de usuario</DialogHeader>
         <DialogDescription>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit((e) => createUser(e))}
             className="flex flex-col gap-2"
           >
             <div className="flex flex-col gap-2">

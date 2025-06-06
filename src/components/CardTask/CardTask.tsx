@@ -1,13 +1,13 @@
 import { Task } from '@/types'
 import { Button } from '../ui/button'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios'
-import { toast } from 'sonner'
 
 type Props = Partial<Task> & {
   index: number
   onClick?: () => void
   getTasks?: () => void
+  startTask?: (id: string) => void
+  endTask?: (id: string) => void
 }
 
 const CardTask: React.FC<Props> = ({
@@ -18,44 +18,10 @@ const CardTask: React.FC<Props> = ({
   completedOnTime,
   incidence,
   onClick,
-  getTasks,
+  startTask,
+  endTask,
 }) => {
   const l = useLocation()
-
-  const startTask = async () => {
-    await axios.put(
-      `http://localhost:8000/task/startTask/${_id}`,
-      {},
-      {
-        headers: {
-          Content_Type: 'application/json',
-        },
-      },
-    )
-    if (getTasks) getTasks()
-    toast.success('Se empezo el trabajo')
-  }
-
-  const endTask = async () => {
-    const endedTaskResp = await axios.put(
-      `http://localhost:8000/task/endTask/${_id}`,
-      {},
-      {
-        headers: {
-          Content_Type: 'application/json',
-        },
-      },
-    )
-    if (getTasks) getTasks()
-    endedTaskResp.data.task.completedOnTime
-      ? toast.success('¡Tarea finalizada a tiempo! 🎉 Excelente trabajo.', {
-          duration: 4000,
-          icon: '🏅',
-        })
-      : toast('Finalizada correctamente.', {
-          icon: '🛠️',
-        })
-  }
 
   return (
     <div className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
@@ -87,14 +53,14 @@ const CardTask: React.FC<Props> = ({
       </div>
       <div className="mt-4 w-full">
         {l.pathname === '/user/home' && status === 'Pendiente' && (
-          <Button className="w-full" onClick={startTask}>
+          <Button className="w-full" onClick={() => startTask?.(_id!)}>
             Empezar tarea
           </Button>
         )}
         {l.pathname === '/user/home' && status === 'En progreso' && (
           <Button
             className="z-5000 w-full bg-green-500 hover:bg-green-400"
-            onClick={endTask}
+            onClick={() => endTask?.(_id!)}
           >
             Finalizar trabajo
           </Button>

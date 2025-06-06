@@ -13,12 +13,17 @@ import { Button } from '../ui/button'
 import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import { FieldErrors, useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
-import axios from 'axios'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { stations } from '@/helpers/stationArray'
 import { taskSchema } from '@/schemas/formSchema'
+import {
+  TASK_CREATE_SUBMIT_ERROR,
+  TASK_CREATE_SUCCESS,
+  TASK_CREATE_WORKER_ERROR,
+} from '@/constants/task/task-messages'
+import { api } from '@/configs/axios'
 
 type TaskFormData = z.infer<typeof taskSchema>
 
@@ -43,28 +48,28 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
     if (assignessArray.length > 1) {
       setAssignessArray(assignessArray.slice(0, -1))
     } else {
-      toast.error('Se requiere un trabajador como minimo')
+      toast.error(TASK_CREATE_WORKER_ERROR)
     }
   }
   const onSubmit = async (data: z.infer<typeof taskSchema>) => {
     try {
       if (selectedWorkers.length < 1) {
-        toast.error('Debes asignar al menos un trabajador')
+        toast.error(TASK_CREATE_SUBMIT_ERROR)
         return
       }
 
-      await axios.post('http://localhost:8000/task/createTask', {
+      await api.post('/task/createTask', {
         ...data,
         assignees: selectedWorkers,
       })
 
-      toast.success('¡Tarea creada con éxito!')
+      toast.success(TASK_CREATE_SUCCESS)
       getTasks()
       reset()
       setAssignessArray([])
       setIsOpen(false)
     } catch (error) {
-      toast.error('Error al crear la tarea. Intentalo de nuevo.')
+      toast.error(TASK_CREATE_SUCCESS)
     }
   }
 

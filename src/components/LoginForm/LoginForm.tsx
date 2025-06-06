@@ -9,37 +9,16 @@ import {
 } from '../ui/card'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import axios from 'axios'
-import { useAuthStore } from '@/store/authStore'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 
 interface LoginData {
   username: string
   password: string
 }
-
-const LoginForm = () => {
-  const navigate = useNavigate()
+type Prop = {
+  onSubmitLogin: (arg: any) => void
+}
+const LoginForm: React.FC<Prop> = ({ onSubmitLogin }) => {
   const { register, handleSubmit } = useForm<LoginData>()
-  const { getUser, getToken } = useAuthStore()
-
-  const onSubmitLogin = async (loginData: LoginData) => {
-    const loginResp: any = await axios
-      .post('http://localhost:8000/login', loginData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .catch((error) => alert(error.response.data.message))
-
-    if (loginResp.status === 200) {
-      toast.success('Inicio de sesión exitoso')
-      getUser(loginResp.data.userLogged)
-      getToken(loginResp.data.token)
-      navigate('/dashboard')
-    }
-  }
 
   return (
     <Card className="mx-auto mt-10 w-full max-w-md p-4">

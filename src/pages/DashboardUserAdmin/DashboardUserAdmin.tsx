@@ -3,10 +3,16 @@ import FilterUser from '@/components/Filters/FilterUser'
 import ModalAdminCreateUser from '@/components/ModalAdminCreateUser/ModalAdminCreateUser'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
+import { api } from '@/configs/axios'
+import { USER_CREATE_SUCCESS } from '@/constants/user/user-messages'
+import { userSchema } from '@/schemas/formSchema'
 import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { z } from 'zod'
+
+type userInfer = z.infer<typeof userSchema>
 
 const DashboardUserAdmin = () => {
   const { user } = useAuthStore()
@@ -15,6 +21,15 @@ const DashboardUserAdmin = () => {
   const getUsers = async () => {
     const usersResp = await axios('http://localhost:8000/user/workers')
     setUsers(usersResp.data.workers)
+  }
+  const createUser = async (e: userInfer) => {
+    const createUserResp = await api.post('/user/createUser/', e, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    if (createUserResp.status === 200) alert(USER_CREATE_SUCCESS)
+    getUsers()
   }
 
   useEffect(() => {
@@ -47,7 +62,7 @@ const DashboardUserAdmin = () => {
           </div>
           <div className="h-full space-y-6 overflow-y-scroll">
             <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
-              <ModalAdminCreateUser />
+              <ModalAdminCreateUser createUser={createUser} />
             </div>
             <FilterUser setUsers={setUsers} />
 

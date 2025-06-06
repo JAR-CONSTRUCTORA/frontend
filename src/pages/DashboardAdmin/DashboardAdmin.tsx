@@ -4,30 +4,51 @@ import ModalAdminDetailTask from '@/components/ModalAdminDetailTask/ModalAdminDe
 import { ModalAdminTask } from '@/components/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
+import { api } from '@/configs/axios'
 import { useAuthStore } from '@/store/authStore'
 import { useDataStore } from '@/store/dataStore'
 import { Task } from '@/types'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const DashboardAdmin = () => {
   const { user } = useAuthStore()
   const navigate = useNavigate()
-  const { setWorkers } = useDataStore()
+  const { setWorkers, workersList } = useDataStore()
   const [allTasksData, setAllTasksData] = useState<Task[]>([])
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
 
   const getWorkers = async () => {
-    const workersResp = await axios.get('http://localhost:8000/user/workers')
+    const workersResp = await api.get('/user/workers')
     setWorkers(workersResp.data?.workers)
   }
 
   const getTasks = async () => {
-    const tasksResp = await axios.get('http://localhost:8000/task')
+    const tasksResp = await api.get('/task')
     setAllTasksData(tasksResp.data.allTasks)
   }
 
+  const handleEdit = async (task: Task, e: any) => {
+    const hasChanged =
+      e.description !== task.description || e.location !== task.location
+
+    if (!hasChanged) {
+      toast.info('No se detectaron cambios.')
+      return
+    }
+
+    const taskEditResp = await api.put(
+      `/task/editTask/${task._id}`,
+      { ...e, assignees: workersList },
+      { headers: { 'Content-Type': 'application/json' } },
+    )
+    console.log(taskEditResp.data)
+    if (taskEditResp.status === 200) {
+      toast.success('Tarea editada con exito!')
+      setSelectedTask(taskEditResp.data.task)
+    }
+  }
   useEffect(() => {
     getWorkers()
     getTasks()
@@ -82,6 +103,7 @@ const DashboardAdmin = () => {
               task={selectedTask}
               onClose={() => setSelectedTask(null)}
               setSelectedTask={setSelectedTask}
+              handleEdit={handleEdit}
             />
           )}
         </main>

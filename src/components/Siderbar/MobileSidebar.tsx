@@ -12,12 +12,12 @@ import {
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
+import { LOGOUT_QUESTION } from '@/constants/auth/logout-message'
 
 const MobileSidebar = () => {
   const { user } = useAuthStore()
   const { pathname } = useLocation()
-
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const basePath = user?.role === 'Admin' ? 'admin' : 'user'
   const path = {
     pathOne: user?.role === 'Admin' ? 'create-user' : 'important-tasks',
@@ -34,7 +34,7 @@ const MobileSidebar = () => {
   }
 
   const handleSignOutClick = () => {
-    toast.warning('¿Estas seguro que quieres salir?', {
+    toast.warning(LOGOUT_QUESTION, {
       action: {
         label: 'Sí',
         onClick: () => {

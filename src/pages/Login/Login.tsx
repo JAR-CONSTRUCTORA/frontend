@@ -36,7 +36,8 @@ const Login = () => {
         getToken(loginResp.data.token)
         navigate('/dashboard')
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.error(error)
       toast.error('Credenciales invalidas, intente nuevamente')
     }
   }

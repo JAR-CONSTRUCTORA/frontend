@@ -4,12 +4,15 @@ import ModalAdminCreateUser from '@/components/ModalAdminCreateUser/ModalAdminCr
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
 import { api } from '@/configs/axios'
-import { USER_CREATE_SUCCESS } from '@/constants/user/user-messages'
+import {
+  USER_CREATE_SUCCESS,
+  USER_NOT_FOUNDED,
+} from '@/constants/user/user-messages'
 import { userSchema } from '@/schemas/formSchema'
 import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 type userInfer = z.infer<typeof userSchema>
@@ -19,7 +22,7 @@ const DashboardUserAdmin = () => {
   const [users, setUsers] = useState<User[]>([])
 
   const getUsers = async () => {
-    const usersResp = await axios('http://localhost:8000/user/workers')
+    const usersResp = await api.get('/user/workers')
     setUsers(usersResp.data.workers)
   }
   const createUser = async (e: userInfer) => {
@@ -32,6 +35,20 @@ const DashboardUserAdmin = () => {
     getUsers()
   }
 
+  const searchUser = async (
+    prompt: string,
+    setIsSearching: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    setIsSearching(true)
+    const searchUserResp = await api.get(`/user/search?completeName=${prompt}`)
+    if (searchUserResp.data.userFounded.lenght > 0) {
+      setUsers(searchUserResp.data.userFounded)
+      setIsSearching(false)
+    } else {
+      toast.error(USER_NOT_FOUNDED)
+      setIsSearching(false)
+    }
+  }
   useEffect(() => {
     getUsers()
   }, [])
@@ -64,7 +81,11 @@ const DashboardUserAdmin = () => {
             <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
               <ModalAdminCreateUser createUser={createUser} />
             </div>
-            <FilterUser setUsers={setUsers} />
+            <FilterUser
+              setUsers={setUsers}
+              searchUser={searchUser}
+              getUsers={getUsers}
+            />
 
             <div className="grid h-[50dvh] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {users.map((user) => (

@@ -21,7 +21,6 @@ const MobileSidebar = () => {
   const basePath = user?.role === 'Admin' ? 'admin' : 'user'
   const path = {
     pathOne: user?.role === 'Admin' ? 'create-user' : 'important-tasks',
-    pathTwo: user?.role === 'Admin' ? 'all-user' : 'completed-tasks',
   }
 
   const handleSignOut = () => {
@@ -113,14 +112,16 @@ const MobileSidebar = () => {
                 <Logs className="h-5 w-5" />
                 {user?.role == 'Admin' ? 'Usuarios' : 'Importantes'}
               </Link>
-              <Link
-                to={`/${basePath}/${path.pathTwo}`}
-                onClick={toggleMenu}
-                className={`flex w-full gap-2 rounded px-4 py-3 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
-              >
-                <Check className="h-5 w-5" />
-                <span className="text-sm">Completadas!</span>
-              </Link>
+              {user?.role === 'Employee' && (
+                <Link
+                  to={`/${basePath}/completed-task`}
+                  onClick={toggleMenu}
+                  className={`flex w-full gap-2 rounded px-4 py-3 hover:bg-white/30 ${pathname === `/${basePath}/completed-tasks` && 'bg-white/30'}`}
+                >
+                  <Check className="h-5 w-5" />
+                  <span className="text-sm">Completadas!</span>
+                </Link>
+              )}
             </div>
           </div>
 

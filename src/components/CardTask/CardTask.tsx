@@ -24,7 +24,7 @@ const CardTask: React.FC<Props> = ({
   const l = useLocation()
 
   return (
-    <div className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
+    <div className="group relative cursor-pointer rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
       <div onClick={onClick}>
         <div className="flex flex-col gap-1 font-medium text-gray-100">
           <h3 className="mb-5 text-lg font-semibold">Nombre estacion</h3>

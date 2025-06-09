@@ -28,32 +28,27 @@ const FilterUser = ({ searchUser, getUsers }: FiltrosProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-6 rounded-xl border border-white/10 bg-gray-800 p-4"
+      className="mb-6 flex h-full flex-col rounded-xl border border-white/10 bg-gray-800 p-4"
     >
       <h3 className="mb-4 text-lg font-semibold text-white">
         Filtrar usuarios
       </h3>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div>
-          <label
-            htmlFor="incidencia"
-            className="mb-1 block text-sm text-gray-300"
-          >
-            Nombre completo de usuario
-          </label>
-          <input
-            id="incidencia"
-            type="text"
-            placeholder="Nombre y apellido de usuario"
-            className="w-full rounded-md border border-gray-600 bg-gray-700 p-2 text-white focus:border-[#1e3a5f] focus:outline-none"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          />
-        </div>
+      <div>
+        <label htmlFor="finduser" className="mb-1 block text-sm text-gray-300">
+          Nombre completo de usuario
+        </label>
+        <input
+          id="finduser"
+          type="text"
+          placeholder="Nombre y apellido de usuario"
+          className="w-full rounded-md border border-gray-600 bg-gray-700 p-2 text-white focus:border-[#1e3a5f] focus:outline-none"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+        />
       </div>
 
-      <div className="mt-4 flex justify-between gap-2">
+      <div className="mt-auto flex justify-between gap-2">
         <button
           type="button"
           onClick={resetFilters}

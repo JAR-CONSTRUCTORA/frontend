@@ -1,6 +1,7 @@
+'use client'
+import { useEffect } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { LoginForm } from '../../components/LoginForm'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { api } from '@/configs/axios'
@@ -19,30 +20,29 @@ const Login = () => {
   useEffect(() => {
     if (token) navigate('/user/dashboard')
     if (user?.role === 'admin') navigate('/admin')
-  }, [])
+  }, [token, user, navigate])
 
   const onSubmitLogin = async (loginData: LoginData) => {
-    const loginResp: any = await api
-      .post('/login', loginData, {
+    try {
+      const loginResp = await api.post('/login', loginData, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      .catch((error) => alert(error.response.data.message))
 
-    if (loginResp.status === 200) {
-      toast.success(LOGIN_SUCCESS)
-      getUser(loginResp.data.userLogged)
-      getToken(loginResp.data.token)
-      navigate('/dashboard')
+      if (loginResp.status === 200) {
+        toast.success(LOGIN_SUCCESS)
+        getUser(loginResp.data.userLogged)
+        getToken(loginResp.data.token)
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Credenciales invalidas, intente nuevamente')
     }
   }
 
-  return (
-    <div className="flex h-dvh items-center justify-center">
-      <LoginForm onSubmitLogin={onSubmitLogin} />
-    </div>
-  )
+  return <LoginForm onSubmitLogin={onSubmitLogin} />
 }
 
 export default Login

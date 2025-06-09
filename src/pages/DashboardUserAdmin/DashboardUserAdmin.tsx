@@ -78,15 +78,27 @@ const DashboardUserAdmin = () => {
             <MobileSidebar />
           </div>
           <div className="h-full space-y-6 overflow-y-scroll">
-            <div className="rounded-xl border border-white/10 bg-gray-800 p-4 transition-shadow hover:bg-gray-700 hover:shadow-xl">
-              <ModalAdminCreateUser createUser={createUser} />
+            <div className="mb-4 flex gap-4">
+              <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
+                <ModalAdminCreateUser createUser={createUser} />
+              </div>
+              <div className="flex-1">
+                <FilterUser
+                  setUsers={setUsers}
+                  searchUser={searchUser}
+                  getUsers={getUsers}
+                />
+              </div>
             </div>
-            <FilterUser
-              setUsers={setUsers}
-              searchUser={searchUser}
-              getUsers={getUsers}
-            />
 
+            {/* <div className="mb-4 flex gap-4">
+              <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
+                <ModalAdminTask getTasks={getTasks} />
+              </div>
+              <div className="flex-1">
+                <Filters setAllTasksData={setAllTasksData} />
+              </div>
+            </div> */}
             <div className="grid h-[50dvh] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {users.map((user) => (
                 <CardUser key={user._id} {...user} />

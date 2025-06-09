@@ -55,7 +55,7 @@ const Filters = ({ setAllTasksData }: FiltrosProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-6 h-full rounded-xl border border-white/10 bg-gray-800 p-4"
+      className="mb-6 flex h-full flex-col rounded-xl border border-white/10 bg-gray-800 p-4"
     >
       <h3 className="mb-4 text-lg font-semibold text-white">Filtrar tareas</h3>
 
@@ -76,7 +76,7 @@ const Filters = ({ setAllTasksData }: FiltrosProps) => {
         />
       </div>
 
-      <div className="mt-4 flex justify-between gap-2">
+      <div className="mt-auto flex justify-between gap-2">
         <button
           type="button"
           onClick={resetFilters}

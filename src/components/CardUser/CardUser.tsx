@@ -11,24 +11,24 @@ const CardUser: React.FC<Prop> = ({
   username,
 }) => {
   return (
-    <div className="group relative rounded-xl border border-white/10 bg-[#2a2a2a] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
-      <div className="flex h-full gap-5">
-        <div className="flex items-center">
-          <span className="rounded-full border-1 p-5">
-            <User2 />
-          </span>
+    <div className="group relative rounded-2xl border border-white/10 bg-[#1f1f1f] p-6 shadow-md transition-all hover:bg-[#2c2c2c] hover:shadow-2xl">
+      <div className="flex items-center gap-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#3b3b3b] text-white">
+          <User2 className="h-6 w-6" />
         </div>
-        <div className="flex h-full flex-col justify-center gap-2 font-medium text-gray-100">
+        <div className="flex flex-col justify-center space-y-1 text-sm text-gray-200">
           <div>
-            <h3 className="text-lg font-semibold">
+            <h3 className="text-xl leading-tight font-bold text-white">
               {firstName} {lastName}
             </h3>
-            <span>Cargo: {role}</span>
+            <span className="text-sm text-gray-400">Cargo: {role}</span>
           </div>
-          <p className="line-clamp-2 break-words">
-            Nombre de usuario: {username}
+          <p className="line-clamp-2 break-words text-gray-300">
+            <span className="font-semibold">Usuario:</span> {username}
           </p>
-          <p>Contraseña: {password}</p>
+          <p className="text-gray-300">
+            <span className="font-semibold">Contraseña:</span> {password}
+          </p>
         </div>
       </div>
     </div>

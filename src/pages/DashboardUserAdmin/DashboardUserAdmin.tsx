@@ -90,17 +90,8 @@ const DashboardUserAdmin = () => {
                 />
               </div>
             </div>
-
-            {/* <div className="mb-4 flex gap-4">
-              <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
-                <ModalAdminTask getTasks={getTasks} />
-              </div>
-              <div className="flex-1">
-                <Filters setAllTasksData={setAllTasksData} />
-              </div>
-            </div> */}
-            <div className="grid h-[50dvh] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {users.map((user) => (
+         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {users.map((user) => (
                 <CardUser key={user._id} {...user} />
               ))}
             </div>

@@ -80,7 +80,7 @@ const DashboardAdmin = () => {
             </div>
           </div>
 
-          <div className="mx-2 h-[80dvh] space-y-6 overflow-y-scroll">
+          <div className="custom-scrollbar mx-2 h-[80dvh] space-y-6 overflow-y-scroll pr-4">
             <div className="mb-4 flex gap-4">
               <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
                 <ModalAdminTask getTasks={getTasks} />

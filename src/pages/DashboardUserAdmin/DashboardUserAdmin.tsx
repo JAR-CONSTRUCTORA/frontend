@@ -77,7 +77,7 @@ const DashboardUserAdmin = () => {
           <div className="lg:hidden">
             <MobileSidebar />
           </div>
-          <div className="h-full space-y-6 overflow-y-scroll">
+          <div className="custom-scrollbar mx-2 h-[80dvh] space-y-6 overflow-y-scroll pr-4">
             <div className="mb-4 flex gap-4">
               <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
                 <ModalAdminCreateUser createUser={createUser} />
@@ -90,8 +90,8 @@ const DashboardUserAdmin = () => {
                 />
               </div>
             </div>
-         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {users.map((user) => (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {users.map((user) => (
                 <CardUser key={user._id} {...user} />
               ))}
             </div>

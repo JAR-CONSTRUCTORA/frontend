@@ -1,14 +1,19 @@
 import { User } from '@/types'
 import { User2 } from 'lucide-react'
 import React from 'react'
+import { Button } from '../ui/button'
 
-type Prop = User
+interface Prop extends User {
+  unsubscribeUser: (id: string) => void
+}
 const CardUser: React.FC<Prop> = ({
+  _id,
   firstName,
   lastName,
   password,
   role,
   username,
+  unsubscribeUser,
 }) => {
   return (
     <div className="group relative rounded-2xl border border-white/10 bg-[#1f1f1f] p-6 shadow-md transition-all hover:bg-[#2c2c2c] hover:shadow-2xl">
@@ -30,6 +35,9 @@ const CardUser: React.FC<Prop> = ({
             <span className="font-semibold">Contraseña:</span> {password}
           </p>
         </div>
+        <Button variant={'destructive'} onClick={() => unsubscribeUser(_id)}>
+          Dar de baja
+        </Button>
       </div>
     </div>
   )

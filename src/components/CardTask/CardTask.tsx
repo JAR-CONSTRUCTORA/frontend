@@ -14,12 +14,14 @@ const CardTask: React.FC<Props> = ({
   _id,
   description,
   location,
+  station,
   status,
   completedOnTime,
   incidence,
   onClick,
   startTask,
   endTask,
+  estimatedTime,
 }) => {
   const l = useLocation()
 
@@ -27,7 +29,7 @@ const CardTask: React.FC<Props> = ({
     <div className="group relative cursor-pointer rounded-xl border border-white/10 bg-[#1f1f1f] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
       <div onClick={onClick}>
         <div className="flex flex-col gap-1 font-medium text-gray-100">
-          <h3 className="mb-5 text-lg font-semibold">Nombre estacion</h3>
+          <h3 className="mb-5 text-lg font-semibold">{station}</h3>
           {incidence && (
             <p className="line-clamp-2 break-words">
               Nro. Incidencia: {incidence}
@@ -43,6 +45,13 @@ const CardTask: React.FC<Props> = ({
             >
               {status}
             </span>
+          </p>
+          <p>
+            {status != 'Completada' && (
+              <span className="font-bold">
+                Tiempo estimado: {estimatedTime} horas
+              </span>
+            )}
           </p>
           <p
             className={`${completedOnTime ? 'text-green-500' : 'text-red-400'}`}

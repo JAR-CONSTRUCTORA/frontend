@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store/authStore'
 
 interface Prop extends Task {
   setSelectedTask: (arg: null) => void
-  sendNote: (id: string, userId: string, note: string) => void
+  sendNote?: (id: string, userId: string, note: string) => void
 }
 
 const ModalUserDetailTask: React.FC<Prop> = ({
@@ -81,7 +81,7 @@ const ModalUserDetailTask: React.FC<Prop> = ({
                 {values.note && (
                   <Button
                     onClick={handleSubmit(() => {
-                      user?._id && sendNote(_id, user._id, values.note)
+                      user?._id && sendNote?.(_id, user._id, values.note)
                     })}
                   >
                     Enviar Nota

@@ -9,7 +9,7 @@ interface Prop {
   getTasks?: () => void
   startTask?: (id: string) => void
   endTask?: (id: string) => void
-  sendNote: (id: string, userId: string, note: string) => void
+  sendNote?: (id: string, userId: string, note: string) => void
 }
 
 const Dashboard: React.FC<Prop> = ({

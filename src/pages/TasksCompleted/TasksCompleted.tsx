@@ -12,7 +12,7 @@ const TasksCompleted = () => {
 
   const getTasksCompleted = async () => {
     const tasksCompletedResp = await api.get(
-      `/task/getTasks/${user?._id}?status=Completed`,
+      `/task/getTasks/${user?._id}?status=Completada`,
     )
     setTasksData(tasksCompletedResp.data.tasks)
   }

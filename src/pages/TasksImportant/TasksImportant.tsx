@@ -11,7 +11,7 @@ const TasksImportant = () => {
   const [tasksData, setTasksData] = useState<Task[]>([])
   const getTasksImportant = async () => {
     const taskResp = await axios.get(
-      `http://localhost:8000/task/getTasks/${user?._id}?status=Pending`,
+      `http://localhost:8000/task/getTasks/${user?._id}?status=En progreso`,
     )
     setTasksData(taskResp.data.tasks)
   }

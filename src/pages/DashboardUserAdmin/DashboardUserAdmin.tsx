@@ -25,6 +25,7 @@ const DashboardUserAdmin = () => {
     const usersResp = await api.get('/user/workers')
     setUsers(usersResp.data.workers)
   }
+
   const createUser = async (e: userInfer) => {
     const createUserResp = await api.post('/user/createUser/', e, {
       headers: {
@@ -49,6 +50,13 @@ const DashboardUserAdmin = () => {
       setIsSearching(false)
     }
   }
+
+  const unsubscribeUser = async (id: string) => {
+    const unsubscribe = await api.put(`/user/unsubscribe/${id}`)
+    if (unsubscribe) alert(unsubscribe.data.message)
+    getUsers()
+  }
+
   useEffect(() => {
     getUsers()
   }, [])
@@ -92,7 +100,11 @@ const DashboardUserAdmin = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {users.map((user) => (
-                <CardUser key={user._id} {...user} />
+                <CardUser
+                  key={user._id}
+                  {...user}
+                  unsubscribeUser={unsubscribeUser}
+                />
               ))}
             </div>
           </div>

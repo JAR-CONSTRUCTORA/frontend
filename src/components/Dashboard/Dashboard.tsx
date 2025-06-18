@@ -1,7 +1,7 @@
 import { Task } from '@/types'
 import React, { useState } from 'react'
 import { CardTask } from '../CardTask'
-import { ModalUserDetailTask } from '../ModalUserDetailTask'
+import { ModalUserDetailTask } from '../Modals/ModalUserDetailTask'
 
 interface Prop {
   data: Task[]

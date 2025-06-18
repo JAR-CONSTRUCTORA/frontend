@@ -1,8 +1,9 @@
 import CardUser from '@/components/CardUser/CardUser'
 import FilterUser from '@/components/Filters/FilterUser'
-import ModalAdminCreateUser from '@/components/ModalAdminCreateUser/ModalAdminCreateUser'
+import ModalAdminCreateUser from '@/components/Modals/ModalAdminCreateUser/ModalAdminCreateUser'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
+import { Button } from '@/components/ui/button'
 import { api } from '@/configs/axios'
 import {
   USER_CREATE_SUCCESS,
@@ -11,6 +12,7 @@ import {
 import { userSchema } from '@/schemas/formSchema'
 import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
+import { UserRoundX } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -76,6 +78,11 @@ const DashboardUserAdmin = () => {
                 <p className="text-sm text-gray-400">
                   Administrador Principal • Rol: {user?.role}
                 </p>
+              </div>
+              <div>
+                <Button variant={'ghost'} className="rounded-full">
+                  <UserRoundX />
+                </Button>
               </div>
             </div>
             <p className="mt-2 text-sm text-gray-400">

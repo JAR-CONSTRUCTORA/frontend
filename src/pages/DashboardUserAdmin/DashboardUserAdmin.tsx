@@ -1,6 +1,7 @@
 import CardUser from '@/components/CardUser/CardUser'
 import FilterUser from '@/components/Filters/FilterUser'
 import ModalAdminCreateUser from '@/components/Modals/ModalAdminCreateUser/ModalAdminCreateUser'
+import { ModalUsersHistory } from '@/components/Modals/ModalUsersHistory'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
 import { Button } from '@/components/ui/button'
@@ -22,6 +23,7 @@ type userInfer = z.infer<typeof userSchema>
 const DashboardUserAdmin = () => {
   const { user } = useAuthStore()
   const [users, setUsers] = useState<User[]>([])
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   const getUsers = async () => {
     const usersResp = await api.get('/user/workers')
@@ -80,9 +82,16 @@ const DashboardUserAdmin = () => {
                 </p>
               </div>
               <div>
-                <Button variant={'ghost'} className="rounded-full">
+                <Button
+                  variant={'ghost'}
+                  onClick={() => setOpenModal(true)}
+                  className="rounded-full"
+                >
                   <UserRoundX />
                 </Button>
+                {openModal && (
+                  <ModalUsersHistory onClick={() => setOpenModal(false)} />
+                )}
               </div>
             </div>
             <p className="mt-2 text-sm text-gray-400">

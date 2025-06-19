@@ -17,10 +17,8 @@ const ModalUsersHistory: React.FC<Prop> = ({ onClick }) => {
           </div>
         </div>
         <div className="flex-1 space-y-4 overflow-x-hidden overflow-y-auto p-6 text-gray-400">
-          <div className="grid">
-            <div>Card de los users</div>
-            <div>Card</div>
-            <div>Card</div>
+          <div className="flex">
+            <div className="w-full border-t-1 border-b-1 border-white/35"></div>
           </div>
           <div className="border-t border-white/10 p-4">
             <div className="flex justify-end">

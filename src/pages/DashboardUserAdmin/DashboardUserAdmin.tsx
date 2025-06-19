@@ -26,7 +26,7 @@ const DashboardUserAdmin = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const getUsers = async () => {
-    const usersResp = await api.get('/user/workers')
+    const usersResp = await api.get('/user/workers?active=true')
     setUsers(usersResp.data.workers)
   }
 
@@ -59,6 +59,11 @@ const DashboardUserAdmin = () => {
     const unsubscribe = await api.put(`/user/unsubscribe/${id}`)
     if (unsubscribe) alert(unsubscribe.data.message)
     getUsers()
+  }
+
+  const getUsersInactive = async () => {
+    const usersInactiveResp = api.get('/user/workers?active=false')
+    console.log(usersInactiveResp)
   }
 
   useEffect(() => {

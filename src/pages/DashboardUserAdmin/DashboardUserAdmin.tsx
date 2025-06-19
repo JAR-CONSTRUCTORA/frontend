@@ -23,6 +23,7 @@ type userInfer = z.infer<typeof userSchema>
 const DashboardUserAdmin = () => {
   const { user } = useAuthStore()
   const [users, setUsers] = useState<User[]>([])
+  const [usersUnsubscribed, setUsersUnsubscribed] = useState<User[]>([])
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const getUsers = async () => {
@@ -62,12 +63,13 @@ const DashboardUserAdmin = () => {
   }
 
   const getUsersInactive = async () => {
-    const usersInactiveResp = api.get('/user/workers?active=false')
-    console.log(usersInactiveResp)
+    const usersInactiveResp = await api.get('/user/workers?active=false')
+    setUsersUnsubscribed(usersInactiveResp.data.workers)
   }
 
   useEffect(() => {
     getUsers()
+    getUsersInactive()
   }, [])
 
   return (
@@ -95,7 +97,10 @@ const DashboardUserAdmin = () => {
                   <UserRoundX />
                 </Button>
                 {openModal && (
-                  <ModalUsersHistory onClick={() => setOpenModal(false)} />
+                  <ModalUsersHistory
+                    onClick={() => setOpenModal(false)}
+                    usersUnsubscribed={usersUnsubscribed}
+                  />
                 )}
               </div>
             </div>

@@ -1,16 +1,3 @@
-import { useEffect, useState } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
-import { Button } from '../ui/button'
-import { ComboBoxWorkers } from '../ComboBoxWorkers'
 import { FieldErrors, useForm } from 'react-hook-form'
 import { useDataStore } from '@/store/dataStore'
 import { toast } from 'sonner'
@@ -24,6 +11,19 @@ import {
   TASK_CREATE_WORKER_ERROR,
 } from '@/constants/task/task-messages'
 import { api } from '@/configs/axios'
+import { useEffect, useState } from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
 
 type TaskFormData = z.infer<typeof taskSchema>
 

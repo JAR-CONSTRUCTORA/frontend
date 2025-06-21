@@ -1,8 +1,8 @@
+import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
+import { Button } from '@/components/ui/button'
 import { Task } from '@/types'
-import { Button } from '../ui/button'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ComboBoxWorkers } from '../ComboBoxWorkers'
 
 type Props = {
   task: Task

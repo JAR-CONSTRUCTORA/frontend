@@ -5,12 +5,12 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTrigger,
-} from '../ui/dialog'
+} from '../../ui/dialog'
 import { z } from 'zod'
 import { userSchema } from '@/schemas/formSchema'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Label } from '../../ui/label'
+import { Input } from '../../ui/input'
+import { Button } from '../../ui/button'
 
 type userInfer = z.infer<typeof userSchema>
 

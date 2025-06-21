@@ -1,8 +1,10 @@
 import CardUser from '@/components/CardUser/CardUser'
 import FilterUser from '@/components/Filters/FilterUser'
-import ModalAdminCreateUser from '@/components/ModalAdminCreateUser/ModalAdminCreateUser'
+import ModalAdminCreateUser from '@/components/Modals/ModalAdminCreateUser/ModalAdminCreateUser'
+import { ModalUsersHistory } from '@/components/Modals/ModalUsersHistory'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
+import { Button } from '@/components/ui/button'
 import { api } from '@/configs/axios'
 import {
   USER_CREATE_SUCCESS,
@@ -11,6 +13,7 @@ import {
 import { userSchema } from '@/schemas/formSchema'
 import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
+import { UserRoundX } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -20,9 +23,11 @@ type userInfer = z.infer<typeof userSchema>
 const DashboardUserAdmin = () => {
   const { user } = useAuthStore()
   const [users, setUsers] = useState<User[]>([])
+  const [usersUnsubscribed, setUsersUnsubscribed] = useState<User[]>([])
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   const getUsers = async () => {
-    const usersResp = await api.get('/user/workers')
+    const usersResp = await api.get('/user/workers?active=true')
     setUsers(usersResp.data.workers)
   }
 
@@ -57,8 +62,14 @@ const DashboardUserAdmin = () => {
     getUsers()
   }
 
+  const getUsersInactive = async () => {
+    const usersInactiveResp = await api.get('/user/workers?active=false')
+    setUsersUnsubscribed(usersInactiveResp.data.workers)
+  }
+
   useEffect(() => {
     getUsers()
+    getUsersInactive()
   }, [])
 
   return (
@@ -76,6 +87,21 @@ const DashboardUserAdmin = () => {
                 <p className="text-sm text-gray-400">
                   Administrador Principal • Rol: {user?.role}
                 </p>
+              </div>
+              <div>
+                <Button
+                  variant={'ghost'}
+                  onClick={() => setOpenModal(true)}
+                  className="rounded-full"
+                >
+                  <UserRoundX />
+                </Button>
+                {openModal && (
+                  <ModalUsersHistory
+                    onClick={() => setOpenModal(false)}
+                    usersUnsubscribed={usersUnsubscribed}
+                  />
+                )}
               </div>
             </div>
             <p className="mt-2 text-sm text-gray-400">

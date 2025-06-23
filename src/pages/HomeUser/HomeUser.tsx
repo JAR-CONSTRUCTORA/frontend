@@ -1,6 +1,11 @@
 import { Container } from '@/components/Container'
 import { Dashboard } from '@/components/Dashboard'
 import { Sidebar } from '@/components/Siderbar'
+import {
+  TASK_COMPLETED_SUCCESSFULL_NORMAL,
+  TASK_COMPLETED_SUCCESSFULL_ON_TIME,
+  TASK_STARTED,
+} from '@/constants/task/task-messages'
 import { USER_SEND_NOTE } from '@/constants/user/user-messages'
 import {
   endTaskUser,
@@ -25,18 +30,18 @@ const HomeUser = () => {
   const startTask = async (id: string) => {
     await startTaskUser(id)
     if (getTasks) getTasks()
-    toast.success('Se empezo el trabajo')
+    toast.success(TASK_STARTED)
   }
 
   const endTask = async (id: string) => {
     const data = await endTaskUser(id)
     if (getTasks) getTasks()
     data.task.completedOnTime
-      ? toast.success('¡Tarea finalizada a tiempo! 🎉 Excelente trabajo.', {
+      ? toast.success(TASK_COMPLETED_SUCCESSFULL_ON_TIME, {
           duration: 4000,
           icon: '🏅',
         })
-      : toast('Finalizada correctamente.', {
+      : toast(TASK_COMPLETED_SUCCESSFULL_NORMAL, {
           icon: '🛠️',
         })
   }

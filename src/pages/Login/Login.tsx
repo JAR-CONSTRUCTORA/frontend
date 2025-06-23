@@ -4,7 +4,10 @@ import { useAuthStore } from '@/store/authStore'
 import { LoginForm } from '../../components/LoginForm'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { LOGIN_SUCCESS } from '@/constants/auth/login-successfull'
+import {
+  LOGIN_CREDENTIALS_INVALID,
+  LOGIN_SUCCESS,
+} from '@/constants/auth/login-messages'
 import { login } from '@/services/auth/useAuth'
 
 interface LoginData {
@@ -28,7 +31,7 @@ const Login = () => {
         navigate('/dashboard')
       }
     } catch (error) {
-      toast.error('Credenciales invalidas, intente nuevamente')
+      toast.error(LOGIN_CREDENTIALS_INVALID)
     }
   }
 

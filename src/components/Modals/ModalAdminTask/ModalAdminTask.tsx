@@ -10,7 +10,6 @@ import {
   TASK_CREATE_SUCCESS,
   TASK_CREATE_WORKER_ERROR,
 } from '@/constants/task/task-messages'
-import { api } from '@/configs/axios'
 import { useEffect, useState } from 'react'
 import {
   Dialog,
@@ -24,14 +23,15 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
+import { createTask } from '@/services/task/useTask'
 
 type TaskFormData = z.infer<typeof taskSchema>
 
 type Prop = {
-  getTasks: () => void
+  fetchTask: () => void
 }
 
-const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
+const ModalAdminTask: React.FC<Prop> = ({ fetchTask }) => {
   const { register, handleSubmit, reset } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
     mode: 'onChange',
@@ -58,13 +58,10 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
         return
       }
 
-      await api.post('/task/createTask', {
-        ...data,
-        assignees: selectedWorkers,
-      })
+      await createTask(data, selectedWorkers)
 
       toast.success(TASK_CREATE_SUCCESS)
-      getTasks()
+      fetchTask()
       reset()
       setAssignessArray([])
       setIsOpen(false)

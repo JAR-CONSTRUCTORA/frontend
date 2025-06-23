@@ -1,8 +1,13 @@
 import { Container } from '@/components/Container'
 import { Dashboard } from '@/components/Dashboard'
 import { Sidebar } from '@/components/Siderbar'
-import { api } from '@/configs/axios'
 import { USER_SEND_NOTE } from '@/constants/user/user-messages'
+import {
+  endTaskUser,
+  getTaskByUser,
+  sendUserNote,
+  startTaskUser,
+} from '@/services/task/useTask'
 import { useAuthStore } from '@/store/authStore'
 import { Task } from '@/types'
 import { useEffect, useState } from 'react'
@@ -13,36 +18,20 @@ const HomeUser = () => {
   const [tasksData, setTasksData] = useState<Task[]>([])
 
   const getTasks = async () => {
-    const tasksResp = await api.get(`/task/getTasks/${user?._id}`)
-    setTasksData(tasksResp.data.tasks)
+    const data = await getTaskByUser(user?._id)
+    setTasksData(data.tasks)
   }
 
   const startTask = async (id: string) => {
-    await api.put(
-      `/task/startTask/${id}`,
-      {},
-      {
-        headers: {
-          Content_Type: 'application/json',
-        },
-      },
-    )
+    await startTaskUser(id)
     if (getTasks) getTasks()
     toast.success('Se empezo el trabajo')
   }
 
   const endTask = async (id: string) => {
-    const endedTaskResp = await api.put(
-      `/task/endTask/${id}`,
-      {},
-      {
-        headers: {
-          Content_Type: 'application/json',
-        },
-      },
-    )
+    const data = await endTaskUser(id)
     if (getTasks) getTasks()
-    endedTaskResp.data.task.completedOnTime
+    data.task.completedOnTime
       ? toast.success('¡Tarea finalizada a tiempo! 🎉 Excelente trabajo.', {
           duration: 4000,
           icon: '🏅',
@@ -52,19 +41,8 @@ const HomeUser = () => {
         })
   }
   const sendNote = async (id: string, idSender: string, content: string) => {
-    const noteResp = await api.put(
-      `/task/sendnote/${id}`,
-      {
-        idSender,
-        content,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    if (noteResp.status === 200) {
+    const data = await sendUserNote(id, idSender, content)
+    if (data) {
       toast.success(USER_SEND_NOTE)
     }
   }

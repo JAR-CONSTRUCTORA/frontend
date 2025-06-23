@@ -4,8 +4,11 @@ import { useAuthStore } from '@/store/authStore'
 import { LoginForm } from '../../components/LoginForm'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { api } from '@/configs/axios'
-import { LOGIN_SUCCESS } from '@/constants/auth/login-successfull'
+import {
+  LOGIN_CREDENTIALS_INVALID,
+  LOGIN_SUCCESS,
+} from '@/constants/auth/login-messages'
+import { login } from '@/services/auth/useAuth'
 
 interface LoginData {
   username: string
@@ -17,30 +20,25 @@ const Login = () => {
   const navigate = useNavigate()
   const { getUser, getToken } = useAuthStore()
 
+  const onSubmitLogin = async (loginData: LoginData) => {
+    try {
+      const resp = await login(loginData)
+
+      if (resp) {
+        toast.success(LOGIN_SUCCESS)
+        getUser(resp.userLogged)
+        getToken(resp.token)
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      toast.error(LOGIN_CREDENTIALS_INVALID)
+    }
+  }
+
   useEffect(() => {
     if (token) navigate('/user/dashboard')
     if (user?.role === 'admin') navigate('/admin')
   }, [token, user, navigate])
-
-  const onSubmitLogin = async (loginData: LoginData) => {
-    try {
-      const loginResp = await api.post('/login', loginData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (loginResp.status === 200) {
-        toast.success(LOGIN_SUCCESS)
-        getUser(loginResp.data.userLogged)
-        getToken(loginResp.data.token)
-        navigate('/dashboard')
-      }
-    } catch (error) {
-      console.error(error)
-      toast.error('Credenciales invalidas, intente nuevamente')
-    }
-  }
 
   return <LoginForm onSubmitLogin={onSubmitLogin} />
 }

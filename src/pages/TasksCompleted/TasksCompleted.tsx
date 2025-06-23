@@ -1,7 +1,7 @@
 import { Container } from '@/components/Container'
 import { Dashboard } from '@/components/Dashboard'
 import { Sidebar } from '@/components/Siderbar'
-import { api } from '@/configs/axios'
+import { useGetTasksByQuery } from '@/services/task/useTask'
 import { useAuthStore } from '@/store/authStore'
 import { Task } from '@/types'
 import { useEffect, useState } from 'react'
@@ -11,10 +11,8 @@ const TasksCompleted = () => {
   const [tasksData, setTasksData] = useState<Task[]>([])
 
   const getTasksCompleted = async () => {
-    const tasksCompletedResp = await api.get(
-      `/task/getTasks/${user?._id}?status=Completada`,
-    )
-    setTasksData(tasksCompletedResp.data.tasks)
+    const data = await useGetTasksByQuery(user?._id, 'status=Completada')
+    setTasksData(data.tasks)
   }
   useEffect(() => {
     getTasksCompleted()

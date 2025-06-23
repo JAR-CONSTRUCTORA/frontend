@@ -76,3 +76,11 @@ export const sendUserNote = async (
   )
   return data
 }
+
+export const useGetTasksByQuery = async (
+  idUser: string | undefined,
+  query: string,
+) => {
+  const { data } = await api.get(`/task/getTasks/${idUser}?${query}`)
+  return data
+}

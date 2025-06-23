@@ -26,3 +26,53 @@ export const createTask = async (
     assignees: selectedWorkers,
   })
 }
+
+export const getTaskByUser = async (id: string | undefined) => {
+  const { data } = await api.get(`/task/getTasks/${id}`)
+  return data
+}
+
+export const startTaskUser = async (id: string) => {
+  await api.put(
+    `/task/startTask/${id}`,
+    {},
+    {
+      headers: {
+        Content_Type: 'application/json',
+      },
+    },
+  )
+}
+
+export const endTaskUser = async (id: string) => {
+  const { data } = await api.put(
+    `/task/endTask/${id}`,
+    {},
+    {
+      headers: {
+        Content_Type: 'application/json',
+      },
+    },
+  )
+  return data
+}
+
+export const sendUserNote = async (
+  idTask: string,
+  idSender: string,
+  content: string,
+) => {
+  const { data } = await api.put(
+    `/task/sendnote/${idTask}`,
+    {
+      idSender,
+      content,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  )
+  return data
+}

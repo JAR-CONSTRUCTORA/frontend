@@ -3,12 +3,34 @@ import { useEffect } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { LoginForm } from '../../components/LoginForm'
 import { useNavigate } from 'react-router-dom'
-import { useLogin } from '@/services/auth/useAuth'
+import { toast } from 'sonner'
+import { LOGIN_SUCCESS } from '@/constants/auth/login-successfull'
+import { login } from '@/services/auth/useAuth'
+
+interface LoginData {
+  username: string
+  password: string
+}
 
 const Login = () => {
   const { token, user } = useAuthStore()
   const navigate = useNavigate()
-  const { onSubmitLogin } = useLogin()
+  const { getUser, getToken } = useAuthStore()
+
+  const onSubmitLogin = async (loginData: LoginData) => {
+    try {
+      const resp = await login(loginData)
+
+      if (resp) {
+        toast.success(LOGIN_SUCCESS)
+        getUser(resp.userLogged)
+        getToken(resp.token)
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      toast.error('Credenciales invalidas, intente nuevamente')
+    }
+  }
 
   useEffect(() => {
     if (token) navigate('/user/dashboard')

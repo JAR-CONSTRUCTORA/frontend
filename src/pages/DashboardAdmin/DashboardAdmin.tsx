@@ -5,6 +5,7 @@ import { ModalAdminTask } from '@/components/Modals/ModalAdminTask'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
 import { api } from '@/configs/axios'
+import { editTask, getTasks } from '@/services/task/useTask'
 import { useAuthStore } from '@/store/authStore'
 import { useDataStore } from '@/store/dataStore'
 import { Task } from '@/types'
@@ -24,9 +25,9 @@ const DashboardAdmin = () => {
     setWorkers(workersResp.data?.workers)
   }
 
-  const getTasks = async () => {
-    const tasksResp = await api.get('/task')
-    setAllTasksData(tasksResp.data.allTasks)
+  const fetchTask = async () => {
+    const data = await getTasks()
+    setAllTasksData(data.allTasks)
   }
 
   const handleEdit = async (task: Task, e: any) => {
@@ -38,20 +39,15 @@ const DashboardAdmin = () => {
       return
     }
 
-    const taskEditResp = await api.put(
-      `/task/editTask/${task._id}`,
-      { ...e, assignees: workersList },
-      { headers: { 'Content-Type': 'application/json' } },
-    )
-    console.log(taskEditResp.data)
-    if (taskEditResp.status === 200) {
+    const resp = await editTask(task, e, workersList)
+    if (resp) {
       toast.success('Tarea editada con exito!')
-      setSelectedTask(taskEditResp.data.task)
+      setSelectedTask(resp.task)
     }
   }
   useEffect(() => {
     getWorkers()
-    getTasks()
+    fetchTask()
     if (user?.role != 'Admin') navigate('/dashboard')
   }, [])
 
@@ -83,7 +79,7 @@ const DashboardAdmin = () => {
           <div className="custom-scrollbar mx-2 h-[80dvh] space-y-6 overflow-y-scroll pr-4">
             <div className="mb-4 flex gap-4">
               <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">
-                <ModalAdminTask getTasks={getTasks} />
+                <ModalAdminTask fetchTask={fetchTask} />
               </div>
               <div className="flex-1">
                 <Filters setAllTasksData={setAllTasksData} />

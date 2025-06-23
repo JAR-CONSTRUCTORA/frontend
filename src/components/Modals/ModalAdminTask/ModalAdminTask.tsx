@@ -28,10 +28,10 @@ import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
 type TaskFormData = z.infer<typeof taskSchema>
 
 type Prop = {
-  getTasks: () => void
+  fetchTask: () => void
 }
 
-const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
+const ModalAdminTask: React.FC<Prop> = ({ fetchTask }) => {
   const { register, handleSubmit, reset } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
     mode: 'onChange',
@@ -64,7 +64,7 @@ const ModalAdminTask: React.FC<Prop> = ({ getTasks }) => {
       })
 
       toast.success(TASK_CREATE_SUCCESS)
-      getTasks()
+      fetchTask()
       reset()
       setAssignessArray([])
       setIsOpen(false)

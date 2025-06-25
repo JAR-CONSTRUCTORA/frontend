@@ -35,7 +35,7 @@ const CardUser: React.FC<Prop> = ({
             <span className="font-semibold">Contraseña:</span> {password}
           </p>
         </div>
-        <DropdownMenuActions />
+        <DropdownMenuActions unsubscribeUser={unsubscribeUser} idUser={_id} />
       </div>
     </div>
   )

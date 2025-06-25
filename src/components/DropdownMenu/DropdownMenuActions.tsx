@@ -9,7 +9,11 @@ import {
   DropdownMenuLabel,
 } from '../ui/dropdown-menu'
 
-const DropdownMenuActions = () => {
+interface Prop {
+  idUser: string
+  unsubscribeUser: (idUser: string) => void
+}
+const DropdownMenuActions: React.FC<Prop> = ({ idUser, unsubscribeUser }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,7 +29,10 @@ const DropdownMenuActions = () => {
           Acciones
         </DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => unsubscribeUser(idUser)}
+          >
             <span>
               <Delete color="red" size={15} />
             </span>

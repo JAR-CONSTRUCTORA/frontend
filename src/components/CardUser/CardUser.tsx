@@ -1,7 +1,7 @@
 import { User } from '@/types'
 import { User2 } from 'lucide-react'
 import React from 'react'
-import { Button } from '../ui/button'
+import { DropdownMenuActions } from '../DropdownMenu'
 
 interface Prop extends User {
   unsubscribeUser: (id: string) => void
@@ -35,9 +35,7 @@ const CardUser: React.FC<Prop> = ({
             <span className="font-semibold">Contraseña:</span> {password}
           </p>
         </div>
-        <Button variant={'destructive'} onClick={() => unsubscribeUser(_id)}>
-          Dar de baja
-        </Button>
+        <DropdownMenuActions />
       </div>
     </div>
   )

@@ -1,19 +1,17 @@
 import { Container } from '@/components/Container'
 import { Dashboard } from '@/components/Dashboard'
 import { Sidebar } from '@/components/Siderbar'
+import { useGetTasksByQuery } from '@/services/task/useTask'
 import { useAuthStore } from '@/store/authStore'
 import { Task } from '@/types'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 const TasksImportant = () => {
   const { user } = useAuthStore()
   const [tasksData, setTasksData] = useState<Task[]>([])
   const getTasksImportant = async () => {
-    const taskResp = await axios.get(
-      `http://localhost:8000/task/getTasks/${user?._id}?incidence=true`,
-    )
-    setTasksData(taskResp.data.tasks)
+    const data = await useGetTasksByQuery(user?._id, 'incidence=true')
+    setTasksData(data.tasks)
   }
 
   useEffect(() => {

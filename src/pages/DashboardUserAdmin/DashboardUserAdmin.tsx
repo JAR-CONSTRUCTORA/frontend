@@ -5,12 +5,17 @@ import { ModalUsersHistory } from '@/components/Modals/ModalUsersHistory'
 import { Sidebar } from '@/components/Siderbar'
 import MobileSidebar from '@/components/Siderbar/MobileSidebar'
 import { Button } from '@/components/ui/button'
-import { api } from '@/configs/axios'
 import {
   USER_CREATE_SUCCESS,
   USER_NOT_FOUNDED,
 } from '@/constants/user/user-messages'
 import { userSchema } from '@/schemas/formSchema'
+import {
+  useCreateUser,
+  useGetUser,
+  useGetUsers,
+  useUnsubscribeUser,
+} from '@/services/user/useUser'
 import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
 import { UserRoundX } from 'lucide-react'
@@ -27,17 +32,13 @@ const DashboardUserAdmin = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const getUsers = async () => {
-    const usersResp = await api.get('/user/workers?active=true')
-    setUsers(usersResp.data.workers)
+    const data = await useGetUsers('true')
+    setUsers(data.workers)
   }
 
   const createUser = async (e: userInfer) => {
-    const createUserResp = await api.post('/user/createUser/', e, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    if (createUserResp.status === 200) alert(USER_CREATE_SUCCESS)
+    const data = await useCreateUser(e)
+    if (data) alert(USER_CREATE_SUCCESS)
     getUsers()
   }
 
@@ -46,9 +47,9 @@ const DashboardUserAdmin = () => {
     setIsSearching: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     setIsSearching(true)
-    const searchUserResp = await api.get(`/user/search?completeName=${prompt}`)
-    if (searchUserResp.data.userFounded.lenght > 0) {
-      setUsers(searchUserResp.data.userFounded)
+    const data = await useGetUser(prompt)
+    if (data.userFounded.lenght > 0) {
+      setUsers(data.userFounded)
       setIsSearching(false)
     } else {
       toast.error(USER_NOT_FOUNDED)
@@ -57,14 +58,14 @@ const DashboardUserAdmin = () => {
   }
 
   const unsubscribeUser = async (id: string) => {
-    const unsubscribe = await api.put(`/user/unsubscribe/${id}`)
-    if (unsubscribe) alert(unsubscribe.data.message)
+    const data = await useUnsubscribeUser(id)
+    if (data) alert(data.message)
     getUsers()
   }
 
   const getUsersInactive = async () => {
-    const usersInactiveResp = await api.get('/user/workers?active=false')
-    setUsersUnsubscribed(usersInactiveResp.data.workers)
+    const data = await useGetUsers('false')
+    setUsersUnsubscribed(data.workers)
   }
 
   useEffect(() => {

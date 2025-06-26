@@ -76,7 +76,7 @@ const MobileSidebar = () => {
               <div className="flex">
                 <span className="rounded-full border-2 border-white/65 px-4 py-4">
                   {user?.role === 'Admin' ? (
-                    <ShieldUser className="text-amber-500" />
+                    <ShieldUser className="text-gray-600" />
                   ) : (
                     <User />
                   )}

@@ -16,7 +16,7 @@ const CardUser: React.FC<Prop> = ({
   unsubscribeUser,
 }) => {
   return (
-    <div className="group relative rounded-2xl border border-white/10 bg-[#1f1f1f] p-6 shadow-md transition-all hover:bg-[#2c2c2c] hover:shadow-2xl">
+    <div className="group relative rounded-xl border border-white/10 bg-[#1f1f1f] p-4 transition-shadow hover:bg-gray-800 hover:shadow-xl">
       <div className="flex items-center gap-4">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#3b3b3b] text-white">
           <User2 className="h-6 w-6" />

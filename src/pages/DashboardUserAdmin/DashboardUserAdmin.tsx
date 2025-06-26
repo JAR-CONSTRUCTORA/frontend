@@ -108,10 +108,11 @@ const DashboardUserAdmin = () => {
             <p className="mt-2 text-sm text-gray-400">
               Aquí podrás gestionar y crear usuarios.
             </p>
+            <div className="lg:hidden">
+              <MobileSidebar />
+            </div>
           </div>
-          <div className="lg:hidden">
-            <MobileSidebar />
-          </div>
+
           <div className="custom-scrollbar mx-2 h-[80dvh] space-y-6 overflow-y-scroll pr-4">
             <div className="mb-4 flex gap-4">
               <div className="w-[40%] rounded-xl border border-white/10 bg-gray-800 transition-shadow hover:bg-gray-700 hover:shadow-xl">

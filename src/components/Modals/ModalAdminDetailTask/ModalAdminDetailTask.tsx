@@ -68,10 +68,12 @@ const ModalAdminDetailTask: React.FC<Props> = ({
               readOnly={!isEdit}
             />
           </div>
-          <div className="flex gap-2">
-            <h4 className="text-sm font-bold">Se empezo:</h4>
-            <p className="text-sm font-medium">{formattedStartDateTime}</p>
-          </div>
+          {formattedStartDateTime && (
+            <div className="flex gap-2">
+              <h4 className="text-sm font-bold">Se empezo:</h4>
+              <p className="text-sm font-medium">{formattedStartDateTime}</p>
+            </div>
+          )}
           <div className="flex gap-2">
             <h4 className="text-sm font-bold">Estado:</h4>
             <p

@@ -1,5 +1,6 @@
 import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
 import { Button } from '@/components/ui/button'
+import { formatterDate } from '@/services/task/useTask'
 import { Task } from '@/types'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,7 +22,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
   const { register, handleSubmit, reset } = useForm({
     defaultValues: { description: task.description, location: task.location },
   })
-
+  const formattedStartDateTime = formatterDate(task.startDateTime)
   const handleClose = () => {
     reset({
       description: task.description,
@@ -68,6 +69,10 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             />
           </div>
           <div className="flex gap-2">
+            <h4 className="text-sm font-bold">Se empezo:</h4>
+            <p className="text-sm font-medium">{formattedStartDateTime}</p>
+          </div>
+          <div className="flex gap-2">
             <h4 className="text-sm font-bold">Estado:</h4>
             <p
               className={`w-full text-sm font-medium ${
@@ -99,6 +104,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
               )}
             </div>
           </div>
+
           <div>
             {task.status === 'Completed' && (
               <div>

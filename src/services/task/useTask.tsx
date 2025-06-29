@@ -84,3 +84,13 @@ export const useGetTasksByQuery = async (
   const { data } = await api.get(`/task/getTasks/${idUser}?${query}`)
   return data
 }
+
+export const formatterDate = (startDateTime: Task['startDateTime']) => {
+  const formattedStartDateTime = startDateTime
+    ? new Date(startDateTime).toLocaleString('es-AR', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    : null
+  return formattedStartDateTime
+}

@@ -1,6 +1,4 @@
 import { User } from '@/types'
-import { User2 } from 'lucide-react'
-import React from 'react'
 import { DropdownMenuActions } from '../DropdownMenu'
 
 interface Prop extends User {

@@ -1,5 +1,6 @@
 import { ComboBoxWorkers } from '@/components/ComboBoxWorkers'
 import { Button } from '@/components/ui/button'
+import { formatterDate } from '@/services/task/useTask'
 import { Task } from '@/types'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,7 +22,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
   const { register, handleSubmit, reset } = useForm({
     defaultValues: { description: task.description, location: task.location },
   })
-
+  const formattedStartDateTime = formatterDate(task.startDateTime)
   const handleClose = () => {
     reset({
       description: task.description,
@@ -32,7 +33,6 @@ const ModalAdminDetailTask: React.FC<Props> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 text-white">
       <div className="flex w-full max-w-md flex-col rounded-xl border border-white/10 bg-[#2a2a2a] shadow-lg">
-        {/* Header */}
         <div className="flex flex-col border-b border-white/10 p-6">
           <div className="min-h-[1rem]">
             {isEdit && (
@@ -49,7 +49,6 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             </button>
           </div>
         </div>
-        {/* Contenido con scroll */}
         <div className="flex-1 space-y-4 overflow-y-auto p-6 text-gray-200">
           <div className="flex gap-2">
             <h4 className="text-sm font-bold">Descripcion:</h4>
@@ -67,6 +66,12 @@ const ModalAdminDetailTask: React.FC<Props> = ({
               readOnly={!isEdit}
             />
           </div>
+          {formattedStartDateTime && (
+            <div className="flex gap-2">
+              <h4 className="text-sm font-bold">Se empezo:</h4>
+              <p className="text-sm font-medium">{formattedStartDateTime}</p>
+            </div>
+          )}
           <div className="flex gap-2">
             <h4 className="text-sm font-bold">Estado:</h4>
             <p
@@ -99,6 +104,7 @@ const ModalAdminDetailTask: React.FC<Props> = ({
               )}
             </div>
           </div>
+
           <div>
             {task.status === 'Completed' && (
               <div>
@@ -129,7 +135,6 @@ const ModalAdminDetailTask: React.FC<Props> = ({
             )}
           </div>
         </div>
-        {/* Footer */}
         <div className="border-t border-white/10 p-4">
           <div className="flex justify-between">
             {isEdit ? (

@@ -21,7 +21,7 @@ const DashboardAdmin = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
 
   const getWorkers = async () => {
-    const workersResp = await api.get('/user/workers')
+    const workersResp = await api.get('/user/workers?active=true')
     setWorkers(workersResp.data?.workers)
   }
 
